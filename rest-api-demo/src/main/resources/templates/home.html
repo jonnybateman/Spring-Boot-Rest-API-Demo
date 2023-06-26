@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>cqueltech.com Company Home Page</title>
+  </head>
+
+  <body>
+    <h2>cqueltech.com Company Home Page Yoohoo</h2>
+    <hr>
+    <p>Welcome to the cqueltech.com company home page!</p>
+    <hr>
+    <!-- Display username and role -->
+    <!-- 'principal.username' will display the username for the user currently logged in -->
+    <!-- 'principal.authorities' will display the roles for the user currently logged in -->
+    <p>
+      User: <span sec:authentication="principal.username"></span>
+      <br><br>
+      Role(s): <span sec:authentication="principal.authorities"></span>
+    </p>
+    
+    <!-- Add a link to point to /courses ... this is for users with USER role only -->
+    <!-- Link is only displayed for users with MANAGER role -->
+    <div sec:authorize="hasRole('USER')">
+      <hr>
+      <p>
+        <a th:href="@{/courses}">Courses</a>
+        (For USERs)
+      </p>
+    </div>
+    <!-- Add a link to point to /instructors...this is only for the MANAGERs -->
+    <!-- Link is only displayed for users with MANAGER role -->
+    <div sec:authorize="hasRole('MANAGER')">
+      <hr>
+      <p>
+        <a th:href="@{/instructors}">Instructors</a>
+        (Only for MANAGERs)
+      </p>
+    </div>
+    <!-- Add a link to point to /students...this is only for the MANAGERs -->
+    <!-- Link is only displayed for users with MANAGER role -->
+    <div sec:authorize="hasRole('MANAGER')">
+      <hr>
+      <p>
+        <a th:href="@{/students}">Students</a>
+        (Only for MANAGERs)
+      </p>
+    </div>
+
+    <hr>
+    <!-- Add a logout button which will take us back to the login form.
+         Send data to default logout URL: /logout. Logout URL will be handled by
+         Spring Security Filters, therefore no coding required. -->
+    <form action="#" th:action="@{/logout}" method="POST">
+      <input type="submit" value="Logout" />
+    </form>
+  </body>
+</html>
