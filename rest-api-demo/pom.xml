@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cqueltech</groupId>
-	<artifactId>restate</artifactId>
+	<artifactId>restapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>restate</name>
+	<name>restapi</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>20</java.version>
@@ -58,6 +58,22 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+    <!-- Add some basic validation rules for a user registration form to make sure -->
+    <!-- the username and password fields are not empty. -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <!-- lombok dependency added to allow us to create dubug messages and output them to
+         the console using 'log.info(String)'. Annotate class with '@Slf4j' when you
+         want to log debug messages. -->
+    <dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 

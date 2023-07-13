@@ -4,6 +4,8 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,11 +26,11 @@ public class SecurityConfig {
     // Define query to retrieve a user by username. Question mark '?' placeholder will be assigned
     // the username from login by Spring automatically.
     jdbcUserDetailsManager.setUsersByUsernameQuery(
-        "select user_id, pw, active from members where user_id=?");
+        "select username, password, active from users where username=?");
 
     // Define query to retrieve the authorities/roles by username.
     jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-        "select user_id, role from roles where user_id=?");
+        "select username, role from roles where username=?");
 
     return jdbcUserDetailsManager;
   }
@@ -42,14 +44,17 @@ public class SecurityConfig {
             // Configure the CSS directory to be accesible to all without authentication.
             // Ensures styles.css is accessible even when user has not bee authenticated.
             .requestMatchers("/css/**").permitAll()
+            // Allow anyone to access the register new user page.
+            .requestMatchers("/showFormAddUser").permitAll()
+            .requestMatchers("/authenticateNewUser").permitAll()
             // Allow users with the EMPLOYEE role to access the app's root page after authentication.
-            .requestMatchers("/").hasRole("USER")
+            .requestMatchers("/").hasRole("STUDENT")
             // Allow only users with the USER role to access the /courses page.
-            .requestMatchers("/courses/**").hasRole("USER")
+            .requestMatchers("/courses/**").hasRole("STUDENT")
             // Allow only users with the MANAGER role to access the /instructor page.
-            .requestMatchers("/instructors/**").hasRole("MANAGER")
+            .requestMatchers("/instructors/**").hasRole("INSTRUCTOR")
             // Allow only users with the ADMIN role to access the /systems page.
-            .requestMatchers("/students/**").hasRole("MANAGER")
+            .requestMatchers("/students/**").hasRole("INSTRUCTOR")
             // Any request to the app must be authenticated
             .anyRequest().authenticated())  
         // We are customizing the form login process
@@ -68,5 +73,13 @@ public class SecurityConfig {
             .accessDeniedPage("/access-denied"));
 
     return http.build();
+  }
+
+  // Define the BCryptPasswordEncoder as a bean for our application. Will be used to
+  // encrypt passwords when registering new users.
+  @Bean
+  public PasswordEncoder encoder() {
+
+    return new BCryptPasswordEncoder();
   }
 }

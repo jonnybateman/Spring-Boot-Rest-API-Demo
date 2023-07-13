@@ -14,6 +14,14 @@ CREATE TABLE `instructor` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+insert into `instructor-student-tracking`.instructor (first_name, last_name, email)
+values
+('John', 'Smith', 'jogn@abcxyz.com'),
+('Joe', 'Bloggs', 'joe@abcxyz.com'),
+('Rachel', 'Bloomingdale', 'rachel@abcxyz.com'),
+('Jennifer', 'Ohara', 'jennifer@abcxyz.com'),
+('Harry', 'Carrick', 'harry@abcxyz.com');
+
 CREATE TABLE `instructor_detail` (
   `id` int NOT NULL AUTO_INCREMENT,
   `age` int DEFAULT NULL,
@@ -25,6 +33,14 @@ CREATE TABLE `instructor_detail` (
   CONSTRAINT `FK_INSTRUCTOR_DETAIL` FOREIGN KEY (`instructor_id`) REFERENCES `instructor` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+insert into `instructor-student-tracking`.instructor_detail (age, sex, address, instructor_id)
+values
+(52, 'M', '44 Preston Road, Broxburn, EH54 6XZ', 1),
+(38, 'M', '10546 Sunnydale Drive, San Francisco, 790766', 2),
+(29, 'F', 'Appt 4b, City Tower, London, WQ4 8AB', 3),
+(41, 'F', 'Buzzard Cottage, Bathgate, EH48 6TG', 4),
+(36, 'M', '18 Gilmour Street, Waybridge, WY22 1ST', 5);
 
 CREATE TABLE `course` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -42,8 +58,19 @@ CREATE TABLE `course` (
   REFERENCES `instructor` (`id`) 
   
   ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+insert into `instructor-student-tracking`.course (title, instructor_id)
+values
+('Maths', 1),
+('Physics', 1),
+('Biology', 2),
+('Chemistry', 3),
+('Geology', 3),
+('Bio-chemistry', 3),
+('Geo-physics', 4),
+('Geography', 4),
+('Architecture', 5);
 
 CREATE TABLE `review` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -61,6 +88,20 @@ CREATE TABLE `review` (
   ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+insert into `instructor-student-tracking`.review (comment, course_id)
+values
+('Excellent, maths made easy!', 1),
+('Instructor made perfect sense.', 1),
+('Course was tough to follow at times!', 3),
+('Too much content in too little time.', 3),
+('Instructor needed to prepare better presentations!', 3),
+('Feel fully prepared to take the exam.', 4),
+('Loved the course, instrucotr was very knowledgeable.', 5),
+('Difficult subject made easy.', 6),
+('I struggled with this but instructor helped immensely!', 6),
+('Very instersting, loved it!', 8),
+('Got bored very quickly, dropped it after a while.', 8),
+('A lot of hard work but well worth it in the end.', 9);
 
 CREATE TABLE `student` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -70,6 +111,22 @@ CREATE TABLE `student` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+insert into `instructor-student-tracking`.student (first_name, last_name, email)
+values
+('Brian', 'Brown', 'brian@abcxyz.com'),
+('Brenda', 'Strong', 'brenda@abcxyz.com'),
+('Helen', 'Grey', 'helen@abcxyz.com'),
+('Rupert', 'Bare', 'rupert@abcxyz.com'),
+('Richard', 'Wickey', 'richard@abcxyz.com'),
+('Katie', 'Henshaw', 'katie@abcxyz.com'),
+('leona', 'Potts', 'leona@abcxyz.com'),
+('Bob', 'Murray', 'bob@abcxyz.com'),
+('Zing', 'Zu', 'zing@abcxyz.com'),
+('Percy', 'Haslewaite', 'percy@abcxyz.com'),
+('Philipa', 'Richmond', 'philipa@abcxyz.com'),
+('sue', 'Abbott', 'sue@abcxyz.com'),
+('Lacey', 'Benjamin', 'lacey@abcxyz.com'),
+('Keith', 'Aubrey', 'keith@abcxyz.com');
 
 CREATE TABLE `course_student` (
   `course_id` int NOT NULL,
@@ -88,34 +145,60 @@ CREATE TABLE `course_student` (
   ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `members` (
-  `user_id` varchar(50) NOT NULL,
-  `pw` char(68) NOT NULL,
+insert into `instructor-student-tracking`.course_student
+values
+(1, 1),
+(1, 6),
+(1, 7),
+(2, 14),
+(3, 6),
+(3, 8),
+(3, 12),
+(3, 2),
+(4, 13),
+(4, 5),
+(5, 4),
+(5, 3),
+(5, 9),
+(5, 10),
+(6, 11),
+(7, 4),
+(7, 8),
+(7, 1),
+(8, 5),
+(9, 9),
+(9, 2);
+
+CREATE TABLE `users` (
+  `username` varchar(50) NOT NULL,
+  `password` char(68) NOT NULL,
   `active` tinyint NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `roles` (
-  `user_id` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL,
-  UNIQUE KEY `roles_idx_1` (`user_id`,`role`),
-  CONSTRAINT `FK_ROLES` FOREIGN KEY (`user_id`) REFERENCES `members` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`username`,`role`),
+  CONSTRAINT `FK_USER_ROLE` FOREIGN KEY (`username`) 
+  REFERENCES `users` (`username`) 
+  ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `members`
+INSERT INTO `users`
 VALUES
-('john','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
-('mary','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
-('susan','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1);
+('john','$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
+('mary','$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
+('susan','$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1);
 
 INSERT INTO `roles`
 VALUES
-('john','ROLE_EMPLOYEE'),
-('mary','ROLE_EMPLOYEE'),
-('mary','ROLE_MANAGER'),
-('susan','ROLE_EMPLOYEE'),
-('susan','ROLE_MANAGER'),
-('susan','ROLE_ADMIN');
+('john','ROLE_STUDENT'),
+('mary','ROLE_STUDENT'),
+('mary','ROLE_INSTRUCTOR'),
+('jonny','ROLE_STUDENT'),
+('jonny','ROLE_INSTRUCTOR'),
+('jonny','ROLE_ADMIN');
 
 SET FOREIGN_KEY_CHECKS = 1;
 

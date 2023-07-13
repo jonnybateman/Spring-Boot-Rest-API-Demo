@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <title>Bootstrap Login Page</title>
+  <title>Bootstrap Add User Page</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- BootStrap stylesheet must go before your own stylesheet so that any custom changes to bootstrap can be rendered. -->
@@ -30,17 +30,17 @@
         </button>
         <div class="collapse navbar-collapse div-navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item" sec:authorize="hasRole('STUDENT')">
-              <a class="nav-link" href="">Courses</a>
+            <li class="nav-item">
+              <a class="nav-link" href="">Projects</a>
             </li>
-            <li class="nav-item" sec:authorize="hasRole('STUDENT')">
-              <a class="nav-link" href="">Course Reviews</a>
+            <li class="nav-item">
+              <a class="nav-link" href="">Education/Experience</a>
             </li>
-            <li class="nav-item" sec:authorize="hasRole('INSTRUCTOR')">
-              <a class="nav-link" href="">Instructors</a>
+            <li class="nav-item">
+              <a class="nav-link" href="">Skills</a>
             </li>
-            <li class="nav-item" sec:authorize="hasRole('INSTRUCTOR')">
-              <a class="nav-link" href="">Students</a>
+            <li class="nav-item">
+              <a class="nav-link" href="">Contact Me</a>
             </li>
           </ul>
         </div>
@@ -49,65 +49,59 @@
   </section>
 
   <div class="container">
-    <!--<div id="loginbox" style="margin-top: 50px;" class="col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2">-->
     <div id="loginbox" class="form-center form-width col-md-offset-2 col-sm-6 col-sm-offset-2">
       <div class="card font-card">
         <div class="card-header">
-          Sign In
+          Register User
         </div>
 
         <div class="card-body">
           <div class="card-text">
 
-            <!-- Login Form -->
+            <!-- Add user Form -->
             <!-- @ symbol denotes the root path for the application. -->
-            <form action="" th:action="@{/authenticateTheUser}" method="POST" class="form-horizontal">
+            <!-- Add controller request mapping for 'authenticateNewUser' URL to authenticate and create new user. -->
+            <!-- Data will be bound to object 'newUser' as setup in the LoginController. -->
+            <form action="" th:action="@{/authenticateNewUser}" th:object="${newUser}" modelAttribute="modelUser" method="POST" class="form-horizontal">
 
               <!-- Place for messages: error, alert etc ... -->
               <!-- When authentication fails, by default Spring Security will send user back to login page. -->
               <div class="form-group">
                 <div class="col-xs-15">
                   <div>
-                    <!-- Check for login error -->
-                    <!-- If authentication fails Spring automatically appends an 'error' parameter
+                    <!-- Check for authentication error -->
+                    <!-- If authentication fails check if an an 'error' parameter has been added
                          to the URL. We can check for that and display an error message if that
                          is the case. -->
-                    <div th:if="${param.error}">
-                      <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                        Invalid username and password.
+                    <div th:if="${registrationError != null}">
+                      <div th:text="${registrationError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
                       </div>
                     </div>
 
-                    <!-- Check for logout -->
-                    <!-- When a logout is processed, by default Spring Security will...
-                                                 Invalidate user's HTTP session and remove session cookies
-                                                 Send user back to login page
-                                                 Append a logout parameter to the URL -->
-                    <div th:if="${param.logout}">
-                      <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                        You have been logged out.
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
 
               <!-- User name -->
               <div style="margin-bottom: 25px;" class="input-group">
-                <input type="text" name="username" placeholder="username" class="form-control field" />
+                <input type="text" th:field="*{username}" name="username" placeholder="username" class="form-control field" />
               </div>
 
               <!-- Password -->
               <div style="margin-bottom: 25px;" class="input-group">
-                <input type="password" name="password" placeholder="password" class="form-control field" />
+                <input type="password" th:field="*{password1}" name="password1" placeholder="password" class="form-control field" />
               </div>
 
-              <!-- Login/Submit Button -->
-              <!-- Wiil submit user data to the authentication URL set up in SecurityConfig. -->
-              <!-- The authentication processing URL will be handled by Spring Security Filters. No coding required.-->
-              <div style="margin-top: 10px;">
-                <div class="col-sm-6">
-                  <button type="submit" class="btn">Login</button>
+              <div style="margin-bottom: 25px;" class="input-group">
+                <input type="password" th:field="*{password2}" name="password2" placeholder="re-enter password" class="form-control field" />
+              </div>
+
+              <!-- Register Button -->
+              <!-- Will submit user data to the authentication URL set up in the form tag. -->
+              <!-- When submitted will call the attribute setter methods of the model object setup in LoginController. -->
+              <div style="margin-top: 10px;" class="form-group">
+                <div class="col-sm-6 controls">
+                  <button type="submit" class="btn">Register</button>
                 </div>
               </div>
 
@@ -116,11 +110,6 @@
           </div>
         </div>
       </div>
-
-      <br>
-      <a th:href="@{/showFormAddUser}" class="btn btn-md mb-3" style="margin-left: 20px;">
-        Register User
-      </a>
     </div>
   </div>
 </body>

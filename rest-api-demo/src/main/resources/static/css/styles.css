@@ -1,3 +1,156 @@
+:root {
+  --bg-color: #1f242d;
+  --logo-color: red;
+  --text-color: #a8a8a8;
+  --hover-color: #f92f2f;
+  --second-bg-color: #323946;
+}
+
+body {
+  background-color: var(--bg-color);
+  margin: 8rem 2rem 0 2rem;
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/*
+ * Navigation Bar
+ */
+
+/* Customised BootStrap class */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 9%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.a-navbar-brand {
+  color: var(--logo-color);
+  font-family: "ubuntu";
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.div-navbar-collapse {
+  margin-right: 20px;
+}
+
+.nav-item {
+  padding: 0 18px;
+  transition: .5s ease;
+}
+
+.nav-item a:hover {
+  color: var(--hover-color);
+  text-shadow: 0 0 1rem var(--hover-color);
+}
+
+.nav-link {
+  font-family: "Montserrat";
+  font-size: 1.2rem;
+}
+
+#nav-navbar {
+  background-color: var(--bg-color);
+  margin-bottom: 50px;
+}
+
+/*
+ * CSS styling for Login and User Registration form
+ */
+
+/* Customised BootStrap class */
+.card {
+  border-radius: 1rem;
+  border-width: 3px;
+  border-color: var(--second-bg-color);
+  background-color: var(--bg-color);
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: var(--second-bg-color);
+  border-radius: 1rem 1rem 0 0;
+  overflow: hidden;
+}
+
+.font-card {
+  font-family: "Montserrat";
+  color: var(--text-color);
+}
+
+/* Center the form <div> on screen */
+.form-center {
+  position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.form-width {
+  width: 400px;
+}
+
 .failed-login {
   color: red;
+}
+
+.field {
+  background-color: var(--bg-color);
+  border-color: var(--second-bg-color);
+  border-width: 3px;
+  color: var(--text-color);
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1.0rem;
+  background: var(--logo-color);
+  color: var(--bg-color);
+  font-family: "Montserrat";
+  box-shadow: 0 0 1rem var(--logo-color);
+  transition: .5s ease;
+}
+
+.btn:hover {
+  box-shadow: none;
+  background: var(--logo-color);
+  color: var(--bg-color);
+}
+
+/*
+ * General Page format
+ */
+
+hr {
+  border: none;
+  color: var(--second-bg-color); /* old IE */
+  background-color: var(--second-bg-color); /* Modern browsers */
+  height: 3px;
+}
+
+.p-font {
+  font-family: "Montserrat";
+  color: var(--text-color);
+}
+
+.p-font-lg {
+  font-size: 2rem;
+}
+
+.p-font-md {
+  font-size: 1.5rem;
+}
+
+.p-font-sm {
+  font-size: 1rem;
 }
