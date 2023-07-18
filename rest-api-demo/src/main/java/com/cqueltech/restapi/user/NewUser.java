@@ -18,13 +18,17 @@ public class NewUser {
 
   @NotNull(message = "is required")
   @Size(min = 1, message = "is required")
-  @Pattern(regexp = "[^\s]")
+  @Pattern(regexp = "[a-zA-Z0-9@!\\-_*&%$\\/]*")
   private String password1;
 
   @NotNull(message = "is required")
   @Size(min = 1, message = "is required")
-  @Pattern(regexp = "[^\s]")
+  @Pattern(regexp = "[a-zA-Z0-9@!\\-_*&%$\\/]*")
   private String password2;
+
+  private int roleStudent;
+
+  private int roleInstructor;
 
   public NewUser() {
   }
@@ -52,4 +56,21 @@ public class NewUser {
   public void setPassword2(String password2) {
     this.password2 = password2;
   }
+
+  public int getRoleStudent() {
+    return roleStudent;
+  }
+
+  public void setRoleStudent(int roleStudent) {
+    this.roleStudent = roleStudent;
+  }
+
+  public int getRoleInstructor() {
+    return roleInstructor;
+  }
+
+  public void setRoleInstructor(int roleInstructor) {
+    this.roleInstructor = roleInstructor;
+  }
+
 }

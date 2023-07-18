@@ -196,9 +196,9 @@ VALUES
 ('john','ROLE_STUDENT'),
 ('mary','ROLE_STUDENT'),
 ('mary','ROLE_INSTRUCTOR'),
-('jonny','ROLE_STUDENT'),
-('jonny','ROLE_INSTRUCTOR'),
-('jonny','ROLE_ADMIN');
+('susan','ROLE_STUDENT'),
+('susan','ROLE_INSTRUCTOR'),
+('susan','ROLE_ADMIN');
 
 SET FOREIGN_KEY_CHECKS = 1;
 

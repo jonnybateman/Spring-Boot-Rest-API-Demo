@@ -1,10 +1,13 @@
 package com.cqueltech.restapi.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.cqueltech.restapi.dao.UserDAO;
+import com.cqueltech.restapi.entity.Course;
+import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Role;
 import com.cqueltech.restapi.entity.User;
 import com.cqueltech.restapi.user.NewUser;
@@ -41,13 +44,6 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public void save(NewUser newUser) {
-  
-    // Perform authentication tasks as required, in this case does a user with this username
-    // already exist.
-
-    // Check the passwords match.
-
-    // Check format of username and password.
 
     // Encrupt the password using the BCryptPasswordEncoder.
     String password = passwordEncoder.encode(newUser.getPassword1());
@@ -56,9 +52,27 @@ public class UserServiceImpl implements UserService {
     User user = new User(newUser.getUsername(), password, 1);
     userDAO.save(user);
     
-    // Using the user DAO to access the database save the default role for the new user.
-    Role role = new Role(newUser.getUsername(), "ROLE_USER");
+    // Using the user DAO to access the database save the default STUDENT role for the new user.
+    Role role = new Role(newUser.getUsername(), "ROLE_STUDENT");
     userDAO.save(role);
+
+    // If the instructor role has also been requested, create INSTRUCTOR role for new user.
+    if (newUser.getRoleInstructor() == 1) {
+      role.setRole("ROLE_INSTRUCTOR");
+      userDAO.save(role);
+    }
+  }
+
+  @Override
+  public List<Course> findAllCourses() {
+    
+    return userDAO.findAllCourses();
+  }
+
+  @Override
+  public List<Instructor> findAllInstructors() {
+    
+    return userDAO.findAllInstructors();
   }
   
 }

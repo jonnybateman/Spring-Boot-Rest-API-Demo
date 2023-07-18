@@ -2,6 +2,7 @@ package com.cqueltech.restapi.service;
 
 import java.util.List;
 import com.cqueltech.restapi.entity.Course;
+import com.cqueltech.restapi.entity.Instructor;
 
 /* 
  * A Service component used to register a new user.
@@ -17,5 +18,7 @@ public interface UserService {
   void save(NewUser newUser);
 
   List<Course> findAllCourses();
+
+  List<Instructor> findAllInstructors();
 }
 

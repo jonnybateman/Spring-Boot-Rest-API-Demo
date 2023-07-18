@@ -1,8 +1,8 @@
 package com.cqueltech.restapi.dao;
 
 import java.util.List;
-
 import com.cqueltech.restapi.entity.Course;
+import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Role;
 import com.cqueltech.restapi.entity.User;
 
@@ -22,4 +22,6 @@ public interface UserDAO {
   void save(Role role);
 
   List<Course> findAllCourses();
+
+  List<Instructor> findAllInstructors();
 }

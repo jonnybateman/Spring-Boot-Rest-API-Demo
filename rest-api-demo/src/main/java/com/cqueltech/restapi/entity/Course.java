@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "courses")
+@Table(name="course")
 public class Course {
 
   // Define entity fields
@@ -55,6 +55,5 @@ public class Course {
   public void setInstructor(Instructor instructor) {
     this.instructor = instructor;
   }
-  
-  
+
 }

@@ -20,37 +20,14 @@
   </head>
 
   <body>
-    <section id="title">
-      <div class="container-fluid">
-        <!-- Nav Bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark" id="nav-navbar">
-          <a class="navbar-brand a-navbar-brand" href="http://cqueltech.com">cqueltech.com</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-              aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse div-navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item" sec:authorize="hasRole('STUDENT')">
-                <a class="nav-link" href="@{/courses}">Courses</a>
-              </li>
-              <li class="nav-item" sec:authorize="hasRole('STUDENT')">
-                <a class="nav-link" href="@{/reviews}">Course Reviews</a>
-              </li>
-              <li class="nav-item" sec:authorize="hasRole('INSTRUCTOR')">
-                <a class="nav-link" href="@{/instructors}">Instructors</a>
-              </li>
-              <li class="nav-item" sec:authorize="hasRole('INSTRUCTOR')">
-                <a class="nav-link" href="@{/students}">Students</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-    </section>
 
+    <!-- Display the title navigation bar -->
+    <section id="title">
+      <div th:replace="~{/fragments/header}" />
+    </section>
+    
     <br>
-    <p class="p-font p-font-lg">Welcome to the cqueltech.com student tracker Spring Boot Demo!</p>
+    <p class="p-font p-font-lg p-margin-top">Welcome to the cqueltech.com student tracker Spring Boot Demo!</p>
     <hr>
     <!-- Display username and role -->
     <!-- 'principal.username' will display the username for the user currently logged in -->
@@ -64,19 +41,19 @@
     <!-- Add a logout button which will take us back to the login form.
          Send data to default logout URL: /logout. Logout URL will be handled by
          Spring Security Filters, therefore no coding required. -->
-    <form action="#" th:action="@{/logout}" method="POST">
+    <form style="text-align: right; width: 82%; margin: 0 auto;" action="#" th:action="@{/logout}" method="POST">
       <input class="btn btn-md mb-3" type="submit" value="Logout" />
     </form>
     <br>
     <br>
-    <p style="margin-left: 6rem; margin-right: 6rem;" class="p-font p-font-sm">
+    <p class="p-font p-font-sm">
       Depending on the role of the user various links are displayed in the NavBar. These links
       will permit access to the database and display relevant information. Only information
       authorised according to the user's role will be displayed. When registering a new user
       the individual can create a user with either the STUDENT or INSTRUCTOR role. An instructor
       will also have the STUDENT role privileges. 
     </p>
-    <p style="margin-left: 6rem; margin-right: 6rem;" class="p-font p-font-sm">
+    <p class="p-font p-font-sm">
       Here the database is tracking courses, the instructors leading the courses, and
       the students taking the courses. As well as this students are also able to leave reviews on
       particular courses.

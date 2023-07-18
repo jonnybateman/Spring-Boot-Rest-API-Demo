@@ -14,6 +14,17 @@ body {
   padding-right: 0;
 }
 
+h3 {
+  font-family: "Montserrat";
+  color: var(--text-color);
+}
+
+p {
+  width: 82%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /*
  * Navigation Bar
  */
@@ -104,6 +115,11 @@ body {
   color: red;
 }
 
+/* Override bootstrp class */
+.form-check-input {
+  background-color: var(--text-color);
+}
+
 .field {
   background-color: var(--bg-color);
   border-color: var(--second-bg-color);
@@ -138,6 +154,10 @@ hr {
   height: 3px;
 }
 
+.p-margin-top {
+  margin-top: 200px;
+}
+
 .p-font {
   font-family: "Montserrat";
   color: var(--text-color);
@@ -153,4 +173,20 @@ hr {
 
 .p-font-sm {
   font-size: 1rem;
+}
+
+.table {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 6rem;
+}
+
+.tbody-font {
+  font-family: "Montserrat";
+}
+
+.page-heading {
+  text-align: center;
+  margin-top: 200px;
 }

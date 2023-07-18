@@ -1,11 +1,10 @@
 package com.cqueltech.restapi.dao;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.cqueltech.restapi.entity.Course;
+import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Role;
 import com.cqueltech.restapi.entity.User;
 import jakarta.persistence.EntityManager;
@@ -48,7 +47,8 @@ public class UserDAOImpl implements UserDAO {
   public List<Course> findAllCourses() {
     
     // Create a query.
-    TypedQuery<Course> query = entityManager.createQuery("from Course", Course.class);
+    //TypedQuery<Course> query = entityManager.createQuery("from Course", Course.class);
+    TypedQuery<Course> query = entityManager.createQuery("select c from Course c", Course.class);
 
     // Execute query and get the result list.
     List<Course> courses = query.getResultList();
@@ -56,6 +56,17 @@ public class UserDAOImpl implements UserDAO {
     // Return the results
     return courses;
   }
-  
-  
+
+  @Override
+  public List<Instructor> findAllInstructors() {
+    
+    // Create a query.
+    TypedQuery<Instructor> query = entityManager.createQuery("select i from Instructor i", Instructor.class);
+
+    // Execute the query and get the result list.
+    List<Instructor> instructors = query.getResultList();
+
+    // Return the results.
+    return instructors;
+  }
 }

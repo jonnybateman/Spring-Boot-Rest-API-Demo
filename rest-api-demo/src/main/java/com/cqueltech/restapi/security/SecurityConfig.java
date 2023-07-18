@@ -47,13 +47,13 @@ public class SecurityConfig {
             // Allow anyone to access the register new user page.
             .requestMatchers("/showFormAddUser").permitAll()
             .requestMatchers("/authenticateNewUser").permitAll()
-            // Allow users with the EMPLOYEE role to access the app's root page after authentication.
+            // Allow users with the STUDENT role to access the app's root page after authentication.
             .requestMatchers("/").hasRole("STUDENT")
-            // Allow only users with the USER role to access the /courses page.
-            .requestMatchers("/courses/**").hasRole("STUDENT")
-            // Allow only users with the MANAGER role to access the /instructor page.
+            // Allow only users with the STUDENT role to access the /courses page.
+            .requestMatchers("/displayCourses").hasRole("STUDENT")
+            // Allow only users with the INSTRUCTOR role to access the /instructor page.
             .requestMatchers("/instructors/**").hasRole("INSTRUCTOR")
-            // Allow only users with the ADMIN role to access the /systems page.
+            // Allow only users with the ADMIN role to access the /students page.
             .requestMatchers("/students/**").hasRole("INSTRUCTOR")
             // Any request to the app must be authenticated
             .anyRequest().authenticated())  
