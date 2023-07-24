@@ -47,7 +47,6 @@ public class UserDAOImpl implements UserDAO {
   public List<Course> findAllCourses() {
     
     // Create a query.
-    //TypedQuery<Course> query = entityManager.createQuery("from Course", Course.class);
     TypedQuery<Course> query = entityManager.createQuery("select c from Course c", Course.class);
 
     // Execute query and get the result list.

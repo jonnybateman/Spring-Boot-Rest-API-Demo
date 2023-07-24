@@ -1,21 +1,22 @@
 package com.cqueltech.restapi.entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "instructor")
-public class Instructor {
-  
-  // Define fields
+@Table(name="student")
+public class Student {
+
+  // Define entity fields
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="id")
@@ -23,23 +24,26 @@ public class Instructor {
 
   @Column(name = "first_name")
   private String firstName;
-  
+
   @Column(name = "last_name")
   private String lastName;
 
   @Column(name = "email")
   private String email;
 
-  @OneToOne(fetch = FetchType.EAGER,
-            cascade=CascadeType.ALL)
-  @JoinColumn(name = "id", referencedColumnName = "instructor_id")
-  private InstructorDetail instructorDetail;
+  // Every Many-to-Many has two sides, the owning side and the non-owning (reverse side). In our use
+  // the Course entity is the owner of the relationship and Student entity is the inverse side. Join
+  // table is specified on the owning side.
+  @ManyToMany(fetch = FetchType.LAZY,
+              cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+              mappedBy = "students")
+  private List<Course> courses;
 
-  // Define constructors
-  public Instructor() {
+  // Define constructors.
+  public Student() {
   }
 
-  // Declare getters and setters
+  // Imnplement the class getters and setters.
   public int getId() {
     return id;
   }
@@ -70,14 +74,6 @@ public class Instructor {
 
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  public InstructorDetail getInstructorDetail() {
-    return instructorDetail;
-  }
-
-  public void setInstructorDetail(InstructorDetail instructorDetail) {
-    this.instructorDetail = instructorDetail;
   }
 
 }

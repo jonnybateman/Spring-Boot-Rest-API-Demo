@@ -12,13 +12,13 @@
           <a class="nav-link" th:href="@{/courses}">Courses</a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('STUDENT')">
-          <a class="nav-link" th:href="@{/reviews}">Course Reviews</a>
+          <a class="nav-link" th:href="@{/course-reviews}">Course Reviews</a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('INSTRUCTOR')">
           <a class="nav-link" th:href="@{/instructors}">Instructors</a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('INSTRUCTOR')">
-          <a class="nav-link" th:href="@{/students}">Students</a>
+          <a class="nav-link" th:href="@{/courses-students}">Students</a>
         </li>
       </ul>
     </div>

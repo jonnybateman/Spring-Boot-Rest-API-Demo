@@ -24,4 +24,5 @@ public interface UserDAO {
   List<Course> findAllCourses();
 
   List<Instructor> findAllInstructors();
+
 }

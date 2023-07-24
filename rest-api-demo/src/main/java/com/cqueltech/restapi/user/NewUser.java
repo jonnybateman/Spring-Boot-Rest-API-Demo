@@ -26,11 +26,12 @@ public class NewUser {
   @Pattern(regexp = "[a-zA-Z0-9@!\\-_*&%$\\/]*")
   private String password2;
 
-  private int roleStudent;
+  private String roleStudent;
 
-  private int roleInstructor;
+  private String roleInstructor;
 
   public NewUser() {
+    
   }
 
   public String getUsername() {
@@ -57,19 +58,19 @@ public class NewUser {
     this.password2 = password2;
   }
 
-  public int getRoleStudent() {
+  public String getRoleStudent() {
     return roleStudent;
   }
 
-  public void setRoleStudent(int roleStudent) {
+  public void setRoleStudent(String roleStudent) {
     this.roleStudent = roleStudent;
   }
 
-  public int getRoleInstructor() {
+  public String getRoleInstructor() {
     return roleInstructor;
   }
 
-  public void setRoleInstructor(int roleInstructor) {
+  public void setRoleInstructor(String roleInstructor) {
     this.roleInstructor = roleInstructor;
   }
 

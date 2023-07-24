@@ -53,13 +53,14 @@ public class UserServiceImpl implements UserService {
     userDAO.save(user);
     
     // Using the user DAO to access the database save the default STUDENT role for the new user.
-    Role role = new Role(newUser.getUsername(), "ROLE_STUDENT");
-    userDAO.save(role);
+    Role roleStudent = new Role(newUser.getUsername(), "ROLE_STUDENT");
+    userDAO.save(roleStudent);
 
     // If the instructor role has also been requested, create INSTRUCTOR role for new user.
-    if (newUser.getRoleInstructor() == 1) {
-      role.setRole("ROLE_INSTRUCTOR");
-      userDAO.save(role);
+    int result = newUser.getRoleInstructor() == null ? 0 : 1;
+    if (result == 1) {
+      Role roleInstructor = new Role(newUser.getUsername(), "ROLE_INSTRUCTOR");
+      userDAO.save(roleInstructor);
     }
   }
 

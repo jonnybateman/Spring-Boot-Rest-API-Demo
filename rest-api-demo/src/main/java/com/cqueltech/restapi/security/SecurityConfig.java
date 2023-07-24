@@ -51,6 +51,8 @@ public class SecurityConfig {
             .requestMatchers("/").hasRole("STUDENT")
             // Allow only users with the STUDENT role to access the /courses page.
             .requestMatchers("/displayCourses").hasRole("STUDENT")
+            // Allow only users with the STUDENT role to access the /reviews page.
+            .requestMatchers("/reviews/**").hasRole("STUDENT")
             // Allow only users with the INSTRUCTOR role to access the /instructor page.
             .requestMatchers("/instructors/**").hasRole("INSTRUCTOR")
             // Allow only users with the ADMIN role to access the /students page.

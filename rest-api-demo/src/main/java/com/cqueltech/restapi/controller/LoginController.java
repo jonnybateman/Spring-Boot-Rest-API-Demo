@@ -79,7 +79,7 @@ public class LoginController {
 
     // Form validation, check formatting of the supplied username and password fields.
     if (bindingResult.hasErrors()) {
-      log.info("error: " + bindingResult.getAllErrors());
+      
       // Username and/or password entries not valid. Display error in registration form
       // by adding an attribute value to the applicable model attribute. 'modelUser' is
       // set up as a 'modelAttribute' in 'add-user.html' form.
