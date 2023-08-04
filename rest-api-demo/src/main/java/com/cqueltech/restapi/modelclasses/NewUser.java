@@ -1,8 +1,9 @@
-package com.cqueltech.restapi.user;
+package com.cqueltech.restapi.modelclasses;
 
 /*
- * The html register user form will make use of this class to store the entries from
- * the add new user form.
+ * A Spring model class used to create a new user for the application. It maps to the
+ * register user form of the add-user template. A model class permits a bi-directional
+ * flow of data between the controller and the template.
  */
 
 import jakarta.validation.constraints.NotNull;

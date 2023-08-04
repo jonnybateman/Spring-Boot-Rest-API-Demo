@@ -9,8 +9,9 @@ import com.cqueltech.restapi.dao.UserDAO;
 import com.cqueltech.restapi.entity.Course;
 import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Role;
+import com.cqueltech.restapi.entity.Student;
 import com.cqueltech.restapi.entity.User;
-import com.cqueltech.restapi.user.NewUser;
+import com.cqueltech.restapi.modelclasses.NewUser;
 
 /*
  * This Service layer lies between the Rest Controller and the DAO. It acts as an intermediate
@@ -74,6 +75,33 @@ public class UserServiceImpl implements UserService {
   public List<Instructor> findAllInstructors() {
     
     return userDAO.findAllInstructors();
+  }
+
+  @Override
+  @Transactional
+  public void deleteStudentFromCourse(Integer studentId, Integer courseId) {
+    
+    userDAO.deleteStudentFromCourse(studentId, courseId);
+  }
+
+  @Override
+  public Course findCourseById(Integer courseId) {
+    
+    return userDAO.findCourseById(courseId);
+  }
+
+  @Override
+  public Student findStudentById(Integer studentId) {
+    
+    return userDAO.findStudentById(studentId);
+  }
+
+  @Override
+  @Transactional
+  public void save(Course course) {
+    
+    // Using the user DAO to access the database enroll the student on the course.
+    userDAO.save(course);
   }
   
 }

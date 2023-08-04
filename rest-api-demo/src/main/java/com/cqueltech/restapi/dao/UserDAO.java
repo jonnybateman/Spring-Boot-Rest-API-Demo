@@ -4,6 +4,7 @@ import java.util.List;
 import com.cqueltech.restapi.entity.Course;
 import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Role;
+import com.cqueltech.restapi.entity.Student;
 import com.cqueltech.restapi.entity.User;
 
 /*
@@ -21,8 +22,16 @@ public interface UserDAO {
 
   void save(Role role);
 
+  void save(Course course);
+
+  Course findCourseById(Integer courseId);
+
   List<Course> findAllCourses();
 
   List<Instructor> findAllInstructors();
+
+  Student findStudentById(Integer studentId);
+
+  void deleteStudentFromCourse(Integer studentId, Integer courseId);
 
 }

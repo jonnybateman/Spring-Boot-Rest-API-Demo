@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Error</title>
+  <div th:replace="~{/fragments/head}" />
+</head>
+
+<body>
+  <!-- Display the title navigation bar -->
+  <section id="title">
+    <div th:replace="~{/fragments/navbar}" />
+  </section>
+
+  <h3 class="page-heading">ERROR!</h3>
+  <hr>
+
+  <p class="p-font" th:text="'Status Code: ' + ${errorResponse.getStatus()}"></p>
+  <p class="p-font" th:text="'Message: ' + ${errorResponse.getMessage()}"></p>
+  <p class="p-font" th:text="'Timestamp: ' + ${errorResponse.getTimestamp()}"></p>
+
+</body>
+</html>

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.cqueltech.restapi.entity.Course;
 import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Role;
+import com.cqueltech.restapi.entity.Student;
 import com.cqueltech.restapi.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -68,4 +69,38 @@ public class UserDAOImpl implements UserDAO {
     // Return the results.
     return instructors;
   }
+
+  @Override
+  public void deleteStudentFromCourse(Integer studentId, Integer courseId) {
+
+    // Delete the relation, identified using the student and course ids, between
+    // the course and the student. This will delete the record from the join table
+    // removing the association between course and student. Course and Student
+    // entities will remain. 
+    Course course = entityManager.find(Course.class, courseId);
+    Student student = entityManager.find(Student.class, studentId);
+    course.getStudents().remove(student);
+  }
+
+  @Override
+  public Course findCourseById(Integer courseId) {
+    
+    // Return course according to course id. By default the find method will search by primary key.
+    return entityManager.find(Course.class, courseId);
+  }
+
+  @Override
+  public Student findStudentById(Integer studentId) {
+    
+    // Return student according to student id. By default the find method will search by primary key.
+    return entityManager.find(Student.class, studentId);
+  }
+
+  @Override
+  public void save(Course course) {
+    
+    // Save the student enrollment to the database.
+    entityManager.persist(course);
+  }
+
 }

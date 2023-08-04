@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.cqueltech.restapi.entity.User;
+import com.cqueltech.restapi.modelclasses.NewUser;
 import com.cqueltech.restapi.service.UserService;
-import com.cqueltech.restapi.user.NewUser;
+
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,14 +27,18 @@ public class LoginController {
 
   private UserService userService;
 
-  // Inject the UserService using constructor injection. The UserService acts as an
-  // intermediary layer between the controller and the DAO that accesses the database.
+  /*
+   * Inject the UserService using constructor injection. The UserService acts as an
+   * intermediary layer between the controller and the DAO that accesses the database.
+   */
   public LoginController(UserService userService) {
     this.userService = userService;
   }
 
-  // InitBinder used to customise the web request being sent to the controller. It helps
-  // in controlling and formatting each and every request that comes to it.
+  /*
+   * InitBinder used to customise the web request being sent to the controller. It helps
+   * in controlling and formatting each and every request that comes to it.
+   */
   @InitBinder
   public void initBinder(WebDataBinder webDataBinder) {
 
@@ -44,7 +49,9 @@ public class LoginController {
     webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
   }
 
-  // Controller to show the user login form.
+  /*
+   * Request mapping to show the user login form.
+   */
   @GetMapping("/showMyLoginPage")
   public String showMyLoginPage() {
 
@@ -52,7 +59,10 @@ public class LoginController {
     return "fancy-login";
   }
   
-  // Add request mapping for /access-denied.
+  /*
+   * Add request mapping for /access-denied. When user does not have valid authority/role
+   * for the resource.
+   */
   @GetMapping("/access-denied")
   public String showAccessDenied() {
 
@@ -60,7 +70,9 @@ public class LoginController {
     return "access-denied";
   }
 
-  // Add request mapping for /showFormAddUser.
+  /*
+   * Add request mapping for /showFormAddUser. Register a new user with required roles.
+   */
   @GetMapping("/showFormAddUser")
   public String showFormAddUser(Model model) {
 
@@ -72,8 +84,10 @@ public class LoginController {
     return "add-user";
   }
 
-  // Process new user form data to save user.
-  // The Model Attribute is that setup as the th:object in the new user html form.
+  /*
+   * Process new user form data to save user.
+   * The Model Attribute is that setup as the th:object in the new user html form.
+   */
   @PostMapping("/authenticateNewUser")
   public String saveUser(@Valid @ModelAttribute("newUser") NewUser newUser, BindingResult bindingResult, Model model) {
 

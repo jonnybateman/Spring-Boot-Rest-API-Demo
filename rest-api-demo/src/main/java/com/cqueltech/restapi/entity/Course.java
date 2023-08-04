@@ -1,6 +1,8 @@
 package com.cqueltech.restapi.entity;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,7 +40,7 @@ public class Course {
 
   // Create join to CourseReview entity.
   @OneToMany(fetch = FetchType.LAZY,
-             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+             cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
   @JoinColumn(name = "course_id", referencedColumnName = "id")
   private List<Review> review;
 
@@ -46,12 +48,17 @@ public class Course {
   // Every Many-to-Many has two sides, the owning side and the non-owning (reverse side). In our use
   // the Course entity is the owner of the relationship and Student entity is the inverse side. Join
   // table is specified on the owning side.
+  // In a many-to-many relationship, both entities are independent of each other. We have two entities,
+  // Course and Student. When removing the record from the Course entity, we usually don't want to remove
+  // associated Student entities. With CascadeType.REMOVE, JPA will remove all associated entities,
+  // even those that might still be connected to other entities.
   @ManyToMany(fetch = FetchType.LAZY,
               cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
   @JoinTable(name = "course_student",
              joinColumns = {@JoinColumn(name = "course_id")},
              inverseJoinColumns = {@JoinColumn(name = "student_id")})
-  private List<Student> students;
+  // Use Set<> instead of List<> as Hibernate does not remove entities from a List in an efficient way.
+  private Set<Student> students = new HashSet<>();
 
   // Define the constructors
   public Course( ) {
@@ -89,12 +96,16 @@ public class Course {
     this.review = reviews;
   }
 
-  public List<Student> getStudents() {
+  public Set<Student> getStudents() {
     return students;
   }
 
-  public void setStudents(List<Student> students) {
+  public void setStudents(Set<Student> students) {
     this.students = students;
+  }
+
+  public void addStudent(Student student) {
+    students.add(student);
   }
 
 }
