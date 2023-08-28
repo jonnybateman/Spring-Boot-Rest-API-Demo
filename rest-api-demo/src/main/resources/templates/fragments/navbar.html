@@ -6,8 +6,8 @@
         aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse div-navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav ms-auto">
+    <div style="margin-top: 30px;" class="collapse navbar-collapse div-navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav ms-auto" style="float: right;">
         <li class="nav-item" sec:authorize="hasRole('STUDENT')">
           <a class="nav-link" th:href="@{/courses}">Courses</a>
         </li>
@@ -22,6 +22,23 @@
         </li>
         <li class="nav-item" sec:authorize="hasRole('INSTRUCTOR')">
           <a class="nav-link" th:href="@{/enroll-student}">Enroll Student</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a class="nav-link" th:href="@{/create-entity/create(entityType='course')}">Create Course</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a class="nav-link" th:href="@{/create-entity/create(entityType='student')}">Create Student</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a class="nav-link" th:href="@{/create-entity/create(entityType='instructor')}">Create Instructor</a>
+        </li>
+        <li>
+          <!-- Add a logout button which will take us back to the login form.
+          Send data to default logout URL: /logout. Logout URL will be handled by
+          Spring Security Filters, therefore no coding required. -->
+          <form class="form-inline" style="margin-left: 18px;" action="#" th:action="@{/logout}" method="POST">
+            <input class="btn btn-md mb-3" type="submit" value="Logout" />
+          </form>
         </li>
       </ul>
     </div>

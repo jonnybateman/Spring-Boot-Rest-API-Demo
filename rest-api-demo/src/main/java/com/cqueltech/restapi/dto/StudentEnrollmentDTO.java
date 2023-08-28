@@ -1,4 +1,4 @@
-package com.cqueltech.restapi.modelclasses;
+package com.cqueltech.restapi.dto;
 
 /*
  * A Spring model class used to enroll a student on a course. It maps to the
@@ -9,7 +9,7 @@ package com.cqueltech.restapi.modelclasses;
 import org.hibernate.validator.constraints.Range;
 import jakarta.validation.constraints.NotNull;
 
-public class StudentEnrollment {
+public class StudentEnrollmentDTO {
 
   @NotNull(message = "is required")
   @Range(min = 1, max = 10, message = "is required")
@@ -20,10 +20,10 @@ public class StudentEnrollment {
   @Range(min = 1, max = 10, message = "is required")
   private Integer studentId;
 
-  public StudentEnrollment() {
+  public StudentEnrollmentDTO() {
   }
 
-  public StudentEnrollment(int courseId, int studentId) {
+  public StudentEnrollmentDTO(int courseId, int studentId) {
     this.courseId = courseId;
     this.studentId = studentId;
   }

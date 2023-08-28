@@ -22,18 +22,22 @@ public class InstructorDetail {
   private int age;
 
   @Column(name="sex")
-  private char sex;
+  private String sex;
 
   @Column(name="address")
   private String address;
-
-  @Column(name="instructor_id")
-  private int instructorId;
 
   // Define constructors
   public InstructorDetail() {
   }
 
+  public InstructorDetail(Integer age, String sex, String address) {
+    this.age = age;
+    this.sex = sex;
+    this.address = address;
+  }
+
+  // Define getters and setters.
   public int getId() {
     return id;
   }
@@ -50,11 +54,11 @@ public class InstructorDetail {
     this.age = age;
   }
 
-  public char getSex() {
+  public String getSex() {
     return sex;
   }
 
-  public void setSex(char sex) {
+  public void setSex(String sex) {
     this.sex = sex;
   }
 
@@ -64,14 +68,6 @@ public class InstructorDetail {
 
   public void setAddress(String address) {
     this.address = address;
-  }
-
-  public int getInstructorId() {
-    return instructorId;
-  }
-
-  public void setInstructorId(int instructorId) {
-    this.instructorId = instructorId;
   }
 
 }

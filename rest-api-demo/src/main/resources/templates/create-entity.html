@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Create Entity</title>
+  <div th:replace="~{/fragments/head}" />
+</head>
+
+<body>
+  <!-- Display the title navigation bar -->
+  <section id="title">
+    <div th:replace="~{/fragments/navbar}" />
+  </section>
+
+  <div class="container">
+    <div id="enrollment-box" class="form-center form-width col-md-offset-2 col-sm-6 col-sm-offset-2">
+      <div class="card font-card">
+        <div class="card-header">
+          <span th:if="${entityType == 'course'}">Create Course</span>
+          <span th:if="${entityType == 'student'}">Create Student</span>
+          <span th:if="${entityType == 'instructor'}">Create Instructor</span>
+        </div>
+
+        <div class="card-body">
+          <div class="card-text">
+
+            <!-- Create Entity Form -->
+            <!-- @ symbol denotes the root path for the application. -->
+            <!-- Add controller request mapping for 'authenticateEntity' URL to authenticate and create new entity. -->
+            <!-- Data will be bound to object 'entity' as setup in the AppController. -->
+            <form action="" th:action="${entityType == 'course'} ? @{/authenticateNewCourse} :
+                                       (${entityType == 'student'} ? @{/authenticateNewStudent} : @{/authenticateNewInstructor})"
+                th:object="${entity}" modelAttribute="entity" method="POST" class="form-horizontal">
+
+              <!-- Place for messages: error, alert etc ... -->
+              <div class="form-group">
+                <div class="col-xs-15">
+                  <div>
+                    <!-- Check for authentication error by checking the 'enrollmentError' model attribute. -->
+                    <!-- If authentication fails display error message contained in the model attribute. -->
+                    <div th:if="${entityError != null}">
+                      <div th:text="${entityError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form input fields to create a course -->
+              <div th:if="${entityType == 'course'}" style="margin-bottom: 25px;" >
+                <input type="text" th:field="*{title}" name="course-title" placeholder="course title"
+                  class="form-control field" style="margin-bottom: 25px;" />
+                <input type="number" min="1" th:field="*{instructorId}" name="instructor-id" placeholder="instructor id"
+                  class="form-control field" style="margin-bottom: 25px;" />
+              </div>
+
+              <!-- Form input fields to create a student -->
+              <div th:if="${entityType == 'student'}" style="margin-bottom: 25px;">
+                <input type="text" th:field="*{firstName}" name="first-name" placeholder="first name"
+                  class="form-control field" style="margin-bottom: 25px;" />
+                <input type="text" th:field="*{lastName}" name="last-name" placeholder="last name"
+                  class="form-control field" style="margin-bottom: 25px;" />
+                <input type="text" th:field="*{email}" name="email" placeholder="email"
+                  class="form-control field" style="margin-bottom: 25px;" />
+              </div>
+
+              <!-- Form input fields to create a instructor -->
+              <div th:if="${entityType == 'instructor'}" style="margin-bottom: 25px;">
+                <input type="text" th:field="*{firstName}" name="first-name" placeholder="first name"
+                  class="form-control field" style="margin-bottom: 25px;" />
+                <input type="text" th:field="*{lastName}" name="last-name" placeholder="last name"
+                  class="form-control field" style="margin-bottom: 25px;" />
+                <input type="text" th:field="*{email}" name="email" placeholder="email"
+                  class="form-control field" style="margin-bottom: 25px;" />
+                <input type="number" th:field="*{age}" name="age" placeholder="age"
+                  class="form-control field" style="margin-bottom: 25px;" />
+                <input type="text" th:field="*{sex}" name="sex" placeholder="sex"
+                  class="form-control field" style="margin-bottom: 25px;" />
+                <input type="text" th:field="*{address}" name="address" placeholder="address"
+                  class="form-control field" style="margin-bottom: 25px;" />
+              </div>
+
+              <!-- Create Button -->
+              <!-- Will submit user data to the authentication URL set up in the form tag. -->
+              <!-- When submitted will call the attribute setter methods of the model object setup in AppController. -->
+              <div style="margin-top: 10px;" class="form-group">
+                <div class="col-sm-6 controls">
+                  <button type="submit" class="btn">Create</button>
+                </div>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

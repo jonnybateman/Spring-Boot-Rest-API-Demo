@@ -30,15 +30,16 @@ public class Course {
   @Column(name="title")
   private String title;
 
-  // Create join to Instructor entity. Set 'fetch' to FetchType.LAZY to only load associated instructors
-  // when required (e.g. by using Course getInstructor() method)
-  @ManyToOne(fetch = FetchType.LAZY,
+  // Create join to Instructor entity.
+  @ManyToOne(fetch = FetchType.EAGER,
              cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
   @JoinColumn(name="instructor_id") // By default will join using the primary key of the instructor table.
                                     // Use referencedColumnName to explicitly specify the join column.
   private Instructor instructor;
 
   // Create join to CourseReview entity.
+  // Set 'fetch' to FetchType.LAZY to only load associated instructors when required (e.g. by using Course
+  // getInstructor() method)
   @OneToMany(fetch = FetchType.LAZY,
              cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
   @JoinColumn(name = "course_id", referencedColumnName = "id")
@@ -64,6 +65,12 @@ public class Course {
   public Course( ) {
   }
 
+  public Course(String courseTitle, Instructor instructor) {
+    this.title = courseTitle;
+    this.instructor = instructor;
+  }
+
+  // Define getters and setters
   public int getId() {
     return id;
   }

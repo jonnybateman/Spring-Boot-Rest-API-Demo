@@ -1,4 +1,4 @@
-package com.cqueltech.restapi.modelclasses;
+package com.cqueltech.restapi.dto;
 
 /*
  * A Spring model class used to create a new user for the application. It maps to the
@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class NewUser {
+public class NewUserDTO {
   
   @NotNull(message = "is required")
   @Size(min = 1, message = "is required")
@@ -31,8 +31,7 @@ public class NewUser {
 
   private String roleInstructor;
 
-  public NewUser() {
-    
+  public NewUserDTO() {
   }
 
   public String getUsername() {

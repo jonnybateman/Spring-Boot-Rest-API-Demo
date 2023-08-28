@@ -58,6 +58,13 @@ public class UserDAOImpl implements UserDAO {
   }
 
   @Override
+  public Instructor findInstructorById(Integer instructorId) {
+
+    // Return instructor according to instructor id. By default the find method will search by primary key.
+    return entityManager.find(Instructor.class, instructorId);
+  }
+
+  @Override
   public List<Instructor> findAllInstructors() {
     
     // Create a query.
@@ -99,8 +106,22 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public void save(Course course) {
     
-    // Save the student enrollment to the database.
+    // Save course entity or student enrollment to the database.
     entityManager.persist(course);
+  }
+
+  @Override
+  public void save(Student student) {
+    
+    // Save the student entity to the database.
+    entityManager.persist(student);
+  }
+
+  @Override
+  public void save(Instructor instructor) {
+    
+    // Save the instructor and associated instructor detail entities to the database.
+    entityManager.persist(instructor);
   }
 
 }

@@ -24,10 +24,16 @@ public interface UserDAO {
 
   void save(Course course);
 
+  void save(Student student);
+
+  void save(Instructor instructor);
+
   Course findCourseById(Integer courseId);
 
   List<Course> findAllCourses();
 
+  Instructor findInstructorById(Integer instructorId);
+  
   List<Instructor> findAllInstructors();
 
   Student findStudentById(Integer studentId);

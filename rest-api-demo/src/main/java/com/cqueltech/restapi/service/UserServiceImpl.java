@@ -6,12 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.cqueltech.restapi.dao.UserDAO;
+import com.cqueltech.restapi.dto.NewUserDTO;
 import com.cqueltech.restapi.entity.Course;
 import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Role;
 import com.cqueltech.restapi.entity.Student;
 import com.cqueltech.restapi.entity.User;
-import com.cqueltech.restapi.modelclasses.NewUser;
 
 /*
  * This Service layer lies between the Rest Controller and the DAO. It acts as an intermediate
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public void save(NewUser newUser) {
+  public void save(NewUserDTO newUser) {
 
     // Encrupt the password using the BCryptPasswordEncoder.
     String password = passwordEncoder.encode(newUser.getPassword1());
@@ -69,6 +69,12 @@ public class UserServiceImpl implements UserService {
   public List<Course> findAllCourses() {
     
     return userDAO.findAllCourses();
+  }
+
+  @Override
+  public Instructor findInstructorById(Integer instructorId) {
+
+    return userDAO.findInstructorById(instructorId);
   }
 
   @Override
@@ -103,5 +109,22 @@ public class UserServiceImpl implements UserService {
     // Using the user DAO to access the database enroll the student on the course.
     userDAO.save(course);
   }
+
+  @Override
+  @Transactional
+  public void save(Student student) {
+
+    // Using the user DAO to access the database save the student entity.
+    userDAO.save(student);
+  }
+
+  @Override
+  @Transactional
+  public void save(Instructor instructor) {
+    
+    // Using the user DAO to access the database save the instructor entity.
+    userDAO.save(instructor);
+  }
+  
   
 }

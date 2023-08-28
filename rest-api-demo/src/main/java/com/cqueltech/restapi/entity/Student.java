@@ -43,6 +43,12 @@ public class Student {
   public Student() {
   }
 
+  public Student(String firstName, String lastName, String email) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+  }
+
   // Imnplement the class getters and setters.
   public int getId() {
     return id;

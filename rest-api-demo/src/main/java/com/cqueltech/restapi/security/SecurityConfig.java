@@ -48,15 +48,17 @@ public class SecurityConfig {
             .requestMatchers("/showFormAddUser").permitAll()
             .requestMatchers("/authenticateNewUser").permitAll()
             // Allow users with the STUDENT role to access the app's root page after authentication.
-            .requestMatchers("/").hasRole("STUDENT")
+            .requestMatchers("/").hasAnyRole("STUDENT", "INSTRUCTOR", "ADMIN")
             // Allow only users with the STUDENT role to access the /courses page.
             .requestMatchers("/displayCourses").hasRole("STUDENT")
             // Allow only users with the STUDENT role to access the /reviews page.
             .requestMatchers("/reviews/**").hasRole("STUDENT")
             // Allow only users with the INSTRUCTOR role to access the /instructor page.
             .requestMatchers("/instructors/**").hasRole("INSTRUCTOR")
-            // Allow only users with the ADMIN role to access the /students page.
+            // Allow only users with the INSTRUCTOR role to access the /students page.
             .requestMatchers("/students/**").hasRole("INSTRUCTOR")
+            // Allow only users with the ADMIN role to access the /create-entity page.
+            .requestMatchers("/create-entity/**").hasRole("ADMIN")
             // Any request to the app must be authenticated
             .anyRequest().authenticated())  
         // We are customizing the form login process

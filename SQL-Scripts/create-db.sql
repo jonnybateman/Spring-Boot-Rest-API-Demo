@@ -11,36 +11,36 @@ CREATE TABLE `instructor` (
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `instructor_detail_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_DETAIL_idx` (`instructor_detail_id`),
+  CONSTRAINT `FK_INSTRUCTOR` FOREIGN KEY (`instructor_detail_id`) REFERENCES `instructor_detail` (`id`)
+    ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-insert into `instructor-student-tracking`.instructor (first_name, last_name, email)
+insert into `instructor-student-tracking`.instructor (first_name, last_name, email, instructor_detail_id)
 values
-('John', 'Smith', 'jogn@abcxyz.com'),
-('Joe', 'Bloggs', 'joe@abcxyz.com'),
-('Rachel', 'Bloomingdale', 'rachel@abcxyz.com'),
-('Jennifer', 'Ohara', 'jennifer@abcxyz.com'),
-('Harry', 'Carrick', 'harry@abcxyz.com');
+('John', 'Smith', 'jogn@abcxyz.com', 1),
+('Joe', 'Bloggs', 'joe@abcxyz.com', 2),
+('Rachel', 'Bloomingdale', 'rachel@abcxyz.com', 3),
+('Jennifer', 'Ohara', 'jennifer@abcxyz.com', 4),
+('Harry', 'Carrick', 'harry@abcxyz.com', 5);
 
 CREATE TABLE `instructor_detail` (
   `id` int NOT NULL AUTO_INCREMENT,
   `age` int DEFAULT NULL,
   `sex` varchar(1) DEFAULT NULL,
   `address` varchar(255) NOT NULL,
-  `instructor_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_INSTRUCTOR_idx` (`instructor_id`),
-  CONSTRAINT `FK_INSTRUCTOR_DETAIL` FOREIGN KEY (`instructor_id`) REFERENCES `instructor` (`id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-insert into `instructor-student-tracking`.instructor_detail (age, sex, address, instructor_id)
+insert into `instructor-student-tracking`.instructor_detail (age, sex, address)
 values
-(52, 'M', '44 Preston Road, Broxburn, EH54 6XZ', 1),
-(38, 'M', '10546 Sunnydale Drive, San Francisco, 790766', 2),
-(29, 'F', 'Appt 4b, City Tower, London, WQ4 8AB', 3),
-(41, 'F', 'Buzzard Cottage, Bathgate, EH48 6TG', 4),
-(36, 'M', '18 Gilmour Street, Waybridge, WY22 1ST', 5);
+(52, 'M', '44 Preston Road, Broxburn, EH54 6XZ'),
+(38, 'M', '10546 Sunnydale Drive, San Francisco, 790766'),
+(29, 'F', 'Appt 4b, City Tower, London, WQ4 8AB'),
+(41, 'F', 'Buzzard Cottage, Bathgate, EH48 6TG'),
+(36, 'M', '18 Gilmour Street, Waybridge, WY22 1ST');
 
 CREATE TABLE `course` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -196,8 +196,6 @@ VALUES
 ('john','ROLE_STUDENT'),
 ('mary','ROLE_STUDENT'),
 ('mary','ROLE_INSTRUCTOR'),
-('susan','ROLE_STUDENT'),
-('susan','ROLE_INSTRUCTOR'),
 ('susan','ROLE_ADMIN');
 
 SET FOREIGN_KEY_CHECKS = 1;

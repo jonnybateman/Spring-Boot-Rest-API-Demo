@@ -5,21 +5,24 @@ package com.cqueltech.restapi.service;
  */
 
 import java.util.List;
+
+import com.cqueltech.restapi.dto.NewUserDTO;
 import com.cqueltech.restapi.entity.Course;
 import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Student;
 import com.cqueltech.restapi.entity.User;
-import com.cqueltech.restapi.modelclasses.NewUser;
 
 public interface UserService {
 
   User findUserByUsername(String username);
 
-  void save(NewUser newUser);
+  void save(NewUserDTO newUser);
 
   Course findCourseById(Integer courseId);
 
   List<Course> findAllCourses();
+
+  Instructor findInstructorById(Integer instructorId);
 
   List<Instructor> findAllInstructors();
 
@@ -28,5 +31,9 @@ public interface UserService {
   void deleteStudentFromCourse(Integer studentId, Integer courseId);
 
   void save(Course course);
+
+  void save(Student student);
+
+  void save(Instructor instructor);
 }
 

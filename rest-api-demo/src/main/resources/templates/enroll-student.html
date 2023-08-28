@@ -25,7 +25,7 @@
             <!-- Add user Form -->
             <!-- @ symbol denotes the root path for the application. -->
             <!-- Add controller request mapping for 'authenticateNewUser' URL to authenticate and create new user. -->
-            <!-- Data will be bound to object 'newUser' as setup in the LoginController. -->
+            <!-- Data will be bound to object 'newUser' as setup in the AppController. -->
             <form action="" th:action="@{/authenticateEnrollment}" th:object="${studentEnrollment}"
                 modelAttribute="enrollmentError" method="POST" class="form-horizontal">
 

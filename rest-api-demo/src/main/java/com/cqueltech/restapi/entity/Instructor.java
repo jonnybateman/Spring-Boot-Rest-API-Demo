@@ -32,11 +32,19 @@ public class Instructor {
 
   @OneToOne(fetch = FetchType.EAGER,
             cascade=CascadeType.ALL)
-  @JoinColumn(name = "id", referencedColumnName = "instructor_id")
+  @JoinColumn(name = "instructor_detail_id")
   private InstructorDetail instructorDetail;
 
   // Define constructors
   public Instructor() {
+  }
+
+  public Instructor(String firstName,
+                    String lastName,
+                    String email) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
   }
 
   // Declare getters and setters

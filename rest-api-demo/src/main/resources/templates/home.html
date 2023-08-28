@@ -26,12 +26,6 @@
       Role(s): <span sec:authentication="principal.authorities"></span>
     </p>
     <hr>
-    <!-- Add a logout button which will take us back to the login form.
-         Send data to default logout URL: /logout. Logout URL will be handled by
-         Spring Security Filters, therefore no coding required. -->
-    <form style="text-align: right; width: 82%; margin: 0 auto;" action="#" th:action="@{/logout}" method="POST">
-      <input class="btn btn-md mb-3" type="submit" value="Logout" />
-    </form>
     <br>
     <br>
     <p class="p-font p-font-sm">

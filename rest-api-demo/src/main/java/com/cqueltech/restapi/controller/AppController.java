@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.cqueltech.restapi.dto.CourseDTO;
+import com.cqueltech.restapi.dto.InstructorDTO;
+import com.cqueltech.restapi.dto.StudentDTO;
+import com.cqueltech.restapi.dto.StudentEnrollmentDTO;
 import com.cqueltech.restapi.entity.Course;
 import com.cqueltech.restapi.entity.Instructor;
+import com.cqueltech.restapi.entity.InstructorDetail;
 import com.cqueltech.restapi.entity.Student;
-import com.cqueltech.restapi.modelclasses.StudentEnrollment;
 import com.cqueltech.restapi.service.UserService;
-
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -125,7 +128,7 @@ public class AppController {
   public String enrollStudent(Model model) {
 
     // Add a model attribute. This is an object that will hold the form data for the data binding.
-    StudentEnrollment studentEnrollment = new StudentEnrollment();
+    StudentEnrollmentDTO studentEnrollment = new StudentEnrollmentDTO();
     model.addAttribute("studentEnrollment", studentEnrollment);
 
     return "enroll-student";
@@ -142,7 +145,7 @@ public class AppController {
    */
   @PostMapping("/authenticateEnrollment")
   public String authenticateStudentEnrollment(@Valid
-                                              @ModelAttribute("studentEnrollment") StudentEnrollment studentEnrollment,
+                                              @ModelAttribute("studentEnrollment") StudentEnrollmentDTO studentEnrollment,
                                               BindingResult bindingResult,
                                               Model model) {
     
@@ -173,10 +176,113 @@ public class AppController {
     course.addStudent(student);
 
     // Save the student enrollment to the database.
-    //userService.save(courseStudent);
     userService.save(course);
 
     // Use a redirect to prevent duplicate submissions and send user to home page.
+    return "redirect:/";
+  }
+
+  @GetMapping("/create-entity/create")
+  public String createEntity(@RequestParam("entityType") String entityType, Model model) {
+
+    // Add a model attribute to pass entity type to create entity template.
+    model.addAttribute("entityType", entityType);
+    
+    // Add a model attribute object to hold create entity form data.
+    //GenericType<Object> object = new GenericType<>();
+    switch(entityType) {
+      case "course":
+        model.addAttribute("entity", new CourseDTO());
+        break;
+      case "student":
+        model.addAttribute("entity", new StudentDTO());
+        break;
+      case "instructor":
+        model.addAttribute("entity", new InstructorDTO());
+        break;
+    }
+    
+    // Load create entity template.
+    return "create-entity";
+  }
+
+  @PostMapping("/authenticateNewCourse")
+  public String authenticateNewCourse(@Valid @ModelAttribute("entity") CourseDTO courseDTO,
+      BindingResult bindingResult, Model model) {
+
+    if (bindingResult.hasErrors()) {
+      // One or more fields from the create entity form is/are invalid. Add attribute
+      // to the Spring model to display the error on the create entity form.
+      model.addAttribute("entityError", "Invalid course field entry(s).");
+      model.addAttribute("entityType", "course");
+
+      return "create-entity";
+    }
+
+    // Ensure the instructor exists
+    Instructor instructor = userService.findInstructorById(courseDTO.getInstructorId());
+    if (instructor == null) {
+      model.addAttribute("entityError", "Instructor does not exist.");
+      model.addAttribute("entityType", "course");
+      return "create-entity";
+    }
+
+    // Save course to the database.
+    Course course = new Course(courseDTO.getTitle(), instructor);
+    userService.save(course);
+
+    // Use a redirect to prevent duplicate submissions and send user to home page.
+    return "redirect:/";
+  }
+
+  @PostMapping("/authenticateNewStudent")
+  public String authenticateNewStudent(@Valid @ModelAttribute("entity") StudentDTO studentDTO,
+      BindingResult bindingResult, Model model) {
+
+    if (bindingResult.hasErrors()) {
+      // One or more fields from the create entity form is/are invalid. Add attribute
+      // to the Spring model to display the error on the create entity form.
+      model.addAttribute("entityError", "Invalid student field entry(s).");
+      model.addAttribute("entityType", "student");
+
+      return "create-entity";
+    }
+
+    // Save the student to the database.
+    Student student = new Student(studentDTO.getFirstName(), studentDTO.getLastName(), studentDTO.getEmail());
+    userService.save(student);
+
+    return "redirect:/";
+  }
+
+  @PostMapping("/authenticateNewInstructor")
+  public String authenticateNewInstructor(@Valid @ModelAttribute("entity") InstructorDTO instructorDTO,
+      BindingResult bindingResult, Model model) {
+
+    if (bindingResult.hasErrors()) {
+      log.info(bindingResult.getAllErrors().toString());
+      // One or more fields from the create entity form is/are invalid. Add attribute
+      // to the Spring model to display the error on the create entity form.
+      model.addAttribute("entityError", "Invalid instructor field entry(s).");
+      model.addAttribute("entityType", "instructor");
+
+      return "create-entity";
+    }
+
+    // Create instructor entity objects.
+    InstructorDetail instructorDetail = new InstructorDetail(instructorDTO.getAge(),
+                                                             instructorDTO.getSex(),
+                                                             instructorDTO.getAddress());
+    Instructor instructor = new Instructor(instructorDTO.getFirstName(),
+                                           instructorDTO.getLastName(),
+                                           instructorDTO.getEmail());
+
+    // Associate the instructor detail object with the instructor.
+    instructor.setInstructorDetail(instructorDetail);
+
+    // Save the instructor to the database.
+    userService.save(instructor);
+
     return "redirect:/";
   }
 }
