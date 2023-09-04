@@ -11,6 +11,7 @@
 	<groupId>com.cqueltech</groupId>
 	<artifactId>restapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
 	<name>restapi</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -60,6 +61,15 @@
 			<scope>test</scope>
 		</dependency>
 
+    <!-- Setup dependency for Tomcat with scope 'provided'. This is when producing -->
+    <!-- a war file for deployment to a Tomcat server. A Tomcat instance will no -->
+    <!-- longer be included with the standard jar file. -->
+    <dependency>  
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- Add some basic validation rules for a user registration form to make sure -->
     <!-- the username and password fields are not empty. -->
     <dependency>
@@ -89,6 +99,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.4.0</version>
+      </plugin>
 		</plugins>
 	</build>
 
