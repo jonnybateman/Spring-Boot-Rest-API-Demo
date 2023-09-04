@@ -18,4 +18,8 @@ REST stands for Representational State Transfer. This means that when a client r
 
 The demo in this repository is for a RESTful Web Service. It has a MySQL backend database which the web service can view and modify. In this demo the database tracks students and instructors in relation to courses. The entity relationship diagram for the database can be viewed below.
 
+### Instructor-Student-Tracking schema
 ![Alt text](./RestApi-ERD-Dark-SVG.svg)
+
+To use the web service one must login in first. There are three levels of user, each has it's own level of access to the database. The level depicts what can be viewed, modified or created within the datbase. The levels, and associated access, are listed below.
+
