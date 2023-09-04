@@ -39,3 +39,5 @@ To use the web service one must login in first. A user has associated role(s), e
 To create a user just press the `Register User` button in the sign-in page. It just requires a username and password, no personal details are required or stored. By default the user will be created with the `Student` role. The `Instructor` role can also be assigned to the user by checking the applicable check box. The `Admin` role is for database administrators only.
 
 Use this link [RestApi Demo](https://cqueltech.com/restapi-0.0.1-SNAPSHOT) to access the web service.
+
+The web service is deployed on an Apache Tomcat server with an Apache server acting as a reverse proxy to it.
