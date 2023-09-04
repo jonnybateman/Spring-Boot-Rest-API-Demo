@@ -21,5 +21,17 @@ The demo in this repository is for a RESTful Web Service. It has a MySQL backend
 ### Instructor-Student-Tracking schema
 ![Alt text](./RestApi-ERD-Dark-SVG.svg)
 
-To use the web service one must login in first. There are three levels of user, each has it's own level of access to the database. The level depicts what can be viewed, modified or created within the datbase. The levels, and associated access, are listed below.
+To use the web service one must login in first. A user has associated role(s), each role has it's own level of access to the database. The role depicts what can be viewed, modified or created within the datbase. The roles, and their associated database access, are listed below.
 
+- Student role:
+  - view courses and associated instructor conducting the course
+  - view course reviews.
+- Instructor role:
+  - view instructors and the associated instructor detail
+  - view students enrolled on courses
+  - remove students from courses
+  - enroll student onto course
+- Admin role:
+  - create a new course
+  - create a new student
+  - create a new instructor
