@@ -1,4 +1,8 @@
-package com.cqueltech.restapi.controller;
+package com.cqueltech.restapi.controller.webappcontroller;
+
+/*
+ * Controller for all web application HTTP requests once user has been authenticated.
+ */
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -9,9 +13,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.cqueltech.restapi.dto.CourseDTO;
+import com.cqueltech.restapi.dto.CoursesDTO;
 import com.cqueltech.restapi.dto.InstructorDTO;
+import com.cqueltech.restapi.dto.InstructorsDTO;
+import com.cqueltech.restapi.dto.ReviewsDTO;
 import com.cqueltech.restapi.dto.StudentDTO;
 import com.cqueltech.restapi.dto.StudentEnrollmentDTO;
+import com.cqueltech.restapi.dto.StudentsDTO;
 import com.cqueltech.restapi.entity.Course;
 import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.InstructorDetail;
@@ -35,9 +43,9 @@ public class AppController {
   }
   
   /*
-   * Show the default hoe page after login.
+   * Show the default home page after login.
    */
-  @GetMapping("/")
+  @GetMapping("/home")
   public String showHome() {
     return "home";
   }
@@ -49,7 +57,7 @@ public class AppController {
   public String showInstructors(Model model) {
 
     // Get list of all instructors and their associated instructor detail.
-    List<Instructor> instructors = userService.findAllInstructors();
+    List<InstructorsDTO> instructors = userService.findAllInstructors();
 
     // Add to the Spring model so that the list of instructors is available to the Thymeleaf template.
     model.addAttribute("instructors", instructors);
@@ -65,7 +73,8 @@ public class AppController {
   public String displayCourses(Model model) {
 
     // Get list of all courses and associated instructors.
-    List<Course> courses = userService.findAllCourses();
+    //List<Course> courses = userService.findAllCourses();
+    List<CoursesDTO> courses = userService.findAllCourses();
 
     // Add to the spring model so that the list of courses is available to the Thymeleaf template.
     model.addAttribute("courses", courses);
@@ -81,10 +90,10 @@ public class AppController {
   public String displayCourseReviews(Model model) {
 
     // Get list of all courses and associated reviews.
-    List<Course> courseReviews = userService.findAllCourses();
+    List<ReviewsDTO> reviews = userService.findAllReviews();
 
     // Add to the Spring model so that a list of reviews is available to the Thymeleaf template.
-    model.addAttribute("courseReviews", courseReviews);
+    model.addAttribute("courseReviews", reviews);
 
     // Display the Thymeleaf template.
     return "reviews";
@@ -97,11 +106,11 @@ public class AppController {
   public String displayCoursesStudents(Model model) {
 
     // Get list of all courses and associated students.
-    List<Course> courseStudents = userService.findAllCourses();
+    List<StudentsDTO> students = userService.findAllStudents();
 
     // Add attribute to the Spring model so that a list of courses and students to the applicable
     // Thymeleaf template.
-    model.addAttribute("courseStudents", courseStudents);
+    model.addAttribute("students", students);
 
     // Display the Thymeleaf template.
     return "students";
@@ -179,7 +188,7 @@ public class AppController {
     userService.save(course);
 
     // Use a redirect to prevent duplicate submissions and send user to home page.
-    return "redirect:/";
+    return "redirect:/home";
   }
 
   @GetMapping("/create-entity/create")
@@ -189,7 +198,6 @@ public class AppController {
     model.addAttribute("entityType", entityType);
     
     // Add a model attribute object to hold create entity form data.
-    //GenericType<Object> object = new GenericType<>();
     switch(entityType) {
       case "course":
         model.addAttribute("entity", new CourseDTO());
@@ -232,7 +240,7 @@ public class AppController {
     userService.save(course);
 
     // Use a redirect to prevent duplicate submissions and send user to home page.
-    return "redirect:/";
+    return "redirect:/home";
   }
 
   @PostMapping("/authenticateNewStudent")
@@ -252,7 +260,7 @@ public class AppController {
     Student student = new Student(studentDTO.getFirstName(), studentDTO.getLastName(), studentDTO.getEmail());
     userService.save(student);
 
-    return "redirect:/";
+    return "redirect:/home";
   }
 
   @PostMapping("/authenticateNewInstructor")
@@ -260,7 +268,6 @@ public class AppController {
       BindingResult bindingResult, Model model) {
 
     if (bindingResult.hasErrors()) {
-      log.info(bindingResult.getAllErrors().toString());
       // One or more fields from the create entity form is/are invalid. Add attribute
       // to the Spring model to display the error on the create entity form.
       model.addAttribute("entityError", "Invalid instructor field entry(s).");
@@ -283,6 +290,6 @@ public class AppController {
     // Save the instructor to the database.
     userService.save(instructor);
 
-    return "redirect:/";
+    return "redirect:/home";
   }
 }

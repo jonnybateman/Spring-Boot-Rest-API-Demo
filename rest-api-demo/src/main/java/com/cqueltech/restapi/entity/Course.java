@@ -1,5 +1,9 @@
 package com.cqueltech.restapi.entity;
 
+/*
+ * Entity class to define the fields and joins of the Course table.
+ */
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +25,10 @@ import jakarta.persistence.Table;
 @Table(name="course")
 public class Course {
 
-  // Define entity fields
+  /*
+   * Define entity fields
+   */
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="id")
@@ -43,7 +50,7 @@ public class Course {
   @OneToMany(fetch = FetchType.LAZY,
              cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
   @JoinColumn(name = "course_id", referencedColumnName = "id")
-  private List<Review> review;
+  private Set<Review> review;
 
   // Create join to Student entity.
   // Every Many-to-Many has two sides, the owning side and the non-owning (reverse side). In our use
@@ -61,7 +68,10 @@ public class Course {
   // Use Set<> instead of List<> as Hibernate does not remove entities from a List in an efficient way.
   private Set<Student> students = new HashSet<>();
 
-  // Define the constructors
+  /*
+   * Define the constructors
+   */
+
   public Course( ) {
   }
 
@@ -70,7 +80,10 @@ public class Course {
     this.instructor = instructor;
   }
 
-  // Define getters and setters
+  /*
+   * Define getter and setter methods
+   */
+
   public int getId() {
     return id;
   }
@@ -95,11 +108,11 @@ public class Course {
     this.instructor = instructor;
   }
 
-  public List<Review> getReview() {
+  public Set<Review> getReview() {
     return review;
   }
 
-  public void setReview(List<Review> reviews) {
+  public void setReview(Set<Review> reviews) {
     this.review = reviews;
   }
 
@@ -113,6 +126,12 @@ public class Course {
 
   public void addStudent(Student student) {
     students.add(student);
+  }
+
+  @Override
+  public String toString() {
+    return "Course [id=" + id + ", title=" + title + ", instructor=" + instructor + ", review=" + review + ", students="
+        + students + "]";
   }
 
 }

@@ -23,7 +23,10 @@
     <p class="p-font p-font-md">
       User: <span sec:authentication="principal.username"></span>
       <br><br>
-      Role(s): <span sec:authentication="principal.authorities"></span>
+      Role(s):
+      <span sec:authorize="hasAuthority('STUDENT')"> STUDENT</span>
+      <span sec:authorize="hasAuthority('INSTRUCTOR')"> INSTRUCTOR</span>
+      <span sec:authorize="hasAuthority('ADMIN')"> ADMIN</span>
     </p>
     <hr>
     <br>

@@ -1,5 +1,9 @@
 package com.cqueltech.restapi.entity;
 
+/*
+ * Entity class to define the fields and joins of the Student table.
+ */
+
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -15,7 +19,10 @@ import jakarta.persistence.Table;
 @Table(name="student")
 public class Student {
 
-  // Define entity fields
+  /*
+   * Define entity fields
+   */
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="id")
@@ -38,7 +45,10 @@ public class Student {
               mappedBy = "students")
   private List<Course> courses;
 
-  // Define constructors.
+  /*
+   * Define class constructors
+   */
+
   public Student() {
   }
 
@@ -48,7 +58,10 @@ public class Student {
     this.email = email;
   }
 
-  // Imnplement the class getters and setters.
+  /*
+   * Define the class getter and setter methods.
+   */
+  
   public int getId() {
     return id;
   }

@@ -11,7 +11,7 @@
 	<groupId>com.cqueltech</groupId>
 	<artifactId>restapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>war</packaging> <!-- value of jar for .jar file, or, value of war for .war package -->
 	<name>restapi</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -45,6 +45,15 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-oauth2-jose</artifactId>
+    </dependency>
+    <!-- dependency for generating RSA Key Value pairs -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+    </dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
@@ -63,7 +72,8 @@
 
     <!-- Setup dependency for Tomcat with scope 'provided'. This is when producing -->
     <!-- a war file for deployment to a Tomcat server. A Tomcat instance will no -->
-    <!-- longer be included with the standard jar file. -->
+    <!-- longer be included with the standard jar file. Remove dependency to produce -->
+    <!-- a .jar file which will have an embedded Tomcat instance. -->
     <dependency>  
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -85,6 +95,12 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.9.1</version>
+    </dependency>
 
 <!--    <dependency>
       <groupId>org.hibernate</groupId>

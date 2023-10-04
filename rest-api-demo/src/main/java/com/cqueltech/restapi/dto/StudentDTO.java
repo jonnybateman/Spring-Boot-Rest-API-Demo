@@ -2,7 +2,8 @@ package com.cqueltech.restapi.dto;
 
 /*
  * A DTO class (data transfer object) used for transferring data between different
- * layers or components of the application. DTOs encapsulate and organise data,
+ * layers or components of the application. Also used to transfer data in http
+ * request/response between client and server. DTOs encapsulate and organise data,
  * making communication between layers more efficient.
  */
 
@@ -12,6 +13,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class StudentDTO {
+
+  /*
+   * Declare class fields
+   */
   
   @NotNull(message = "is required")
   @Size(min = 1, message = "is required")
@@ -35,11 +40,17 @@ public class StudentDTO {
   @Email(regexp = "^[A-Za-z0-9+_.-]+@(.+)$")
   private String email;
 
-  // Declare constructor
+  /*
+   * Define class constructors
+   */
+
   public StudentDTO() {
   }
 
-  // Declare getters and setters.
+  /*
+   * Define class getter and setter methods
+   */
+  
   public String getFirstName() {
     return firstName;
   }

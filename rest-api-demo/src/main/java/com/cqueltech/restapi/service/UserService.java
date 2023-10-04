@@ -1,12 +1,12 @@
 package com.cqueltech.restapi.service;
 
-/* 
- * A Service component used to register a new user.
- */
-
 import java.util.List;
 
+import com.cqueltech.restapi.dto.CoursesDTO;
+import com.cqueltech.restapi.dto.InstructorsDTO;
 import com.cqueltech.restapi.dto.NewUserDTO;
+import com.cqueltech.restapi.dto.ReviewsDTO;
+import com.cqueltech.restapi.dto.StudentsDTO;
 import com.cqueltech.restapi.entity.Course;
 import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Student;
@@ -20,11 +20,15 @@ public interface UserService {
 
   Course findCourseById(Integer courseId);
 
-  List<Course> findAllCourses();
+  List<CoursesDTO> findAllCourses();
+
+  List<ReviewsDTO> findAllReviews();
 
   Instructor findInstructorById(Integer instructorId);
 
-  List<Instructor> findAllInstructors();
+  List<InstructorsDTO> findAllInstructors();
+
+  List<StudentsDTO> findAllStudents();
 
   Student findStudentById(Integer studentId);
 

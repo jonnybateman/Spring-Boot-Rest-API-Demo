@@ -32,12 +32,12 @@
         <!-- For each of the employees in the models employees attribute.-->
         <tr th:each="instructor : ${instructors}">
         
-          <td th:text="${instructor.id}" />	
+          <td th:text="${instructor.instructorId}" />	
           <td th:text="${instructor.firstName} + ' ' + ${instructor.lastName}" />	
           <td th:text="${instructor.email}" />
-          <td th:text="${instructor.getInstructorDetail().getAge()}" />
-          <td th:text="${instructor.getInstructorDetail().getSex()}" />
-          <td th:text="${instructor.getInstructorDetail().getAddress()}" />
+          <td th:text="${instructor.age}" />
+          <td th:text="${instructor.sex}" />
+          <td th:text="${instructor.address}" />
         
         </tr>
       </tbody>		

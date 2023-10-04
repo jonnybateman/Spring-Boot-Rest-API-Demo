@@ -1,8 +1,19 @@
 package com.cqueltech.restapi.dao;
 
+/*
+ * The User Data Access Object. Used as an interface between our app and the database.
+ * 
+ * The DAO needs a JPA Entity Manager for saving/deleting/changing/retrieving entities (records).
+ * The JPA Entity Manager will need to be injected into our DAO.
+ */
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import com.cqueltech.restapi.dto.CoursesDTO;
+import com.cqueltech.restapi.dto.InstructorsDTO;
+import com.cqueltech.restapi.dto.ReviewsDTO;
+import com.cqueltech.restapi.dto.StudentsDTO;
 import com.cqueltech.restapi.entity.Course;
 import com.cqueltech.restapi.entity.Instructor;
 import com.cqueltech.restapi.entity.Role;
@@ -14,11 +25,15 @@ import jakarta.persistence.TypedQuery;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-  // Define field for Entity Manager. EntityManager is an API that manages the
-  // lifecycle of entity instances.
+  // Define field for Entity Manager. EntityManager is one of the key abstractions
+  // that JPA (Java Persistance API) specification defines. It sits between the
+  // database and the application and plays the responsibility of managing entities
+  // in context.
   private EntityManager entityManager;
 
-  // Inject EntityManager using constructor injection.
+  /*
+   * Inject EntityManager using constructor injection.
+   */
   @Autowired
   public UserDAOImpl(EntityManager entityManager) {
     this.entityManager = entityManager;
@@ -45,16 +60,33 @@ public class UserDAOImpl implements UserDAO {
   }
 
   @Override
-  public List<Course> findAllCourses() {
+  public List<CoursesDTO> findAllCourses() {
     
-    // Create a query.
-    TypedQuery<Course> query = entityManager.createQuery("select c from Course c", Course.class);
+    // Create a JPQL query.
+    TypedQuery<CoursesDTO> query = entityManager.createQuery(
+          "SELECT new com.cqueltech.restapi.dto.CoursesDTO(c.id, c.title, i.firstName, i.lastName, i.id) " +
+          "FROM Course c JOIN c.instructor i", CoursesDTO.class);
 
     // Execute query and get the result list.
-    List<Course> courses = query.getResultList();
+    List<CoursesDTO> courses = query.getResultList();
 
     // Return the results
     return courses;
+  }
+
+  @Override
+  public List<ReviewsDTO> findAllReviews() {
+
+    // Create a JPQL query.
+    TypedQuery<ReviewsDTO> query = entityManager.createQuery(
+        "SELECT new com.cqueltech.restapi.dto.ReviewsDTO(" +
+            "c.id, c.title, r.comment) FROM Course c JOIN c.review r", ReviewsDTO.class);
+
+    // Execute query and get the result list.
+    List<ReviewsDTO> reviews = query.getResultList();
+
+    // Return the results.
+    return reviews;
   }
 
   @Override
@@ -65,16 +97,35 @@ public class UserDAOImpl implements UserDAO {
   }
 
   @Override
-  public List<Instructor> findAllInstructors() {
+  public List<InstructorsDTO> findAllInstructors() {
     
-    // Create a query.
-    TypedQuery<Instructor> query = entityManager.createQuery("select i from Instructor i", Instructor.class);
+    // Create a JPQL query to retrieve a list of instructors and associated instructor detail.
+    TypedQuery<InstructorsDTO> query = entityManager.createQuery(
+      "SELECT new com.cqueltech.restapi.dto.InstructorsDTO(" +
+          "i.id, i.firstName, i.lastName, i.email, d.age, d.sex, d.address) " +
+          "FROM Instructor i JOIN i.instructorDetail d", InstructorsDTO.class);
 
     // Execute the query and get the result list.
-    List<Instructor> instructors = query.getResultList();
+    List<InstructorsDTO> instructors = query.getResultList();
 
     // Return the results.
     return instructors;
+  }
+
+  @Override
+  public List<StudentsDTO> findAllStudents() {
+
+    // Create a JPQL query to retrieve a list of students enrolled on each course.
+    TypedQuery<StudentsDTO> query = entityManager.createQuery(
+        "SELECT new com.cqueltech.restapi.dto.StudentsDTO(" +
+        "c.id, c.title, s.firstName, s.lastName, s.email, s.id) " +
+        "FROM Course c JOIN c.students s", StudentsDTO.class);
+
+    // Execute the query and get the result set.
+    List<StudentsDTO> students = query.getResultList();
+
+    // Return the results
+    return students;
   }
 
   @Override

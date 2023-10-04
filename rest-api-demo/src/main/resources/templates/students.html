@@ -30,22 +30,21 @@
       
       <tbody class="table-secondary">
         <!-- For each of the courses in the models course-reviews attribute.-->
-        <th:block th:each="course : ${courseStudents}">
-          <tr th:each="student : ${course.getStudents()}">
+        <tr th:each="student : ${students}">
       
-            <td th:text="${course.id}" />
-            <td th:text="${course.title}" />
-            <td th:text="${student.firstName} + ' ' + ${student.lastName}" />
-            <td th:text="${student.email}" />
-            <td th:text="${student.id}" />
-            <td>
-              <a th:href="@{/courses-students/delete(studentId=${student.id}, courseId=${course.id})}" class="btn btn-danger btn-sm"
-                onclick="if (!(confirm('Are you sure you want to remove student from this course?'))) return false">
-                  Delete
-              </a>
-            </td>
-          </tr>
-        </th:block>
+          <td th:text="${student.courseId}" />
+          <td th:text="${student.title}" />
+          <td th:text="${student.firstName} + ' ' + ${student.lastName}" />
+          <td th:text="${student.email}" />
+          <td th:text="${student.studentId}" />
+          <td>
+            <a th:href="@{/courses-students/delete(studentId=${student.studentId}, courseId=${student.courseId})}"
+                class="btn btn-danger btn-sm"
+              onclick="if (!(confirm('Are you sure you want to remove student from this course?'))) return false">
+                Delete
+            </a>
+          </td>
+        </tr>
       </tbody>
     </table>
   </section>

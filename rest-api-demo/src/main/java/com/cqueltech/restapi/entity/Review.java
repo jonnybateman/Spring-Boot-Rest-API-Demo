@@ -1,5 +1,9 @@
 package com.cqueltech.restapi.entity;
 
+/*
+ * Entity class to define the fields and joins of the Review table.
+ */
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +15,10 @@ import jakarta.persistence.Table;
 @Table(name = "review")
 public class Review {
 
-    // Define entity fields
+    /*
+     * Define entity fields
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -21,12 +28,19 @@ public class Review {
     private String comment;
 
     @Column(name = "course_id")
-    private int course_id;
+    private int courseId;
 
-    // Define constructors.
+    /*
+     * Define class constructors
+     */
+
     public Review() {
     }
 
+    /*
+     * Define class getter and setter methods
+     */
+    
     public int getId() {
         return id;
     }
@@ -43,12 +57,17 @@ public class Review {
         this.comment = comment;
     }
 
-    public int getCourse_id() {
-        return course_id;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setCourse_id(int course_id) {
-        this.course_id = course_id;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
+
+    @Override
+    public String toString() {
+      return "Review [id=" + id + ", comment=" + comment + ", course_id=" + courseId + "]";
     }
 
 }

@@ -1,5 +1,9 @@
 package com.cqueltech.restapi.entity;
 
+/*
+ * Entity class to define the fields and joins of the Instructor table.
+ */
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +19,10 @@ import jakarta.persistence.OneToOne;
 @Table(name = "instructor")
 public class Instructor {
   
-  // Define fields
+  /*
+   * Define class fields
+   */
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="id")
@@ -35,7 +42,10 @@ public class Instructor {
   @JoinColumn(name = "instructor_detail_id")
   private InstructorDetail instructorDetail;
 
-  // Define constructors
+  /*
+   * Define class constructors
+   */
+
   public Instructor() {
   }
 
@@ -47,7 +57,10 @@ public class Instructor {
     this.email = email;
   }
 
-  // Declare getters and setters
+  /*
+   * Define class getter and setter methods
+   */
+  
   public int getId() {
     return id;
   }

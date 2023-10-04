@@ -1,13 +1,23 @@
 package com.cqueltech.restapi.dto;
 
-import org.hibernate.validator.constraints.Range;
+/*
+ * A DTO class (data transfer object) used for transferring data between different
+ * layers or components of the application. Also used to transfer data in http
+ * request/response between client and server. DTOs encapsulate and organise data,
+ * making communication between layers more efficient.
+ */
 
+import org.hibernate.validator.constraints.Range;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class InstructorDTO {
+
+  /*
+   * Declare class fields
+   */
   
   @NotNull(message = "is required")
   @Size(min = 1, message = "is required")
@@ -44,8 +54,31 @@ public class InstructorDTO {
   @Size(min = 1, max = 255, message = "is required")
   private String address;
 
+  /*
+   * Declare class constructors
+   */
+
   public InstructorDTO() {
   }
+
+  public InstructorDTO(String firstName,
+                       String lastName,
+                       String email,
+                       int age,
+                       String sex,
+                       String address) {
+
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.age = age;
+    this.sex = sex;
+    this.address = address;
+  }
+
+  /*
+   * Declare class getter and setter methods
+   */
 
   public String getFirstName() {
     return firstName;

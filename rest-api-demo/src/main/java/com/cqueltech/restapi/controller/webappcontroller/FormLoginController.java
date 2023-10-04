@@ -1,8 +1,9 @@
-package com.cqueltech.restapi.controller;
+package com.cqueltech.restapi.controller.webappcontroller;
 
 /*
  * Controllers are used for processing the web request (eg. form submition) and
- * rendering the response to the view.
+ * rendering the response to the view. This controller deals with form login and
+ * register new user http requests.
  */
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -14,17 +15,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.cqueltech.restapi.dto.NewUserDTO;
 import com.cqueltech.restapi.entity.User;
 import com.cqueltech.restapi.service.UserService;
-
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-public class LoginController {
+public class FormLoginController {
 
   private UserService userService;
 
@@ -32,7 +31,7 @@ public class LoginController {
    * Inject the UserService using constructor injection. The UserService acts as an
    * intermediary layer between the controller and the DAO that accesses the database.
    */
-  public LoginController(UserService userService) {
+  public FormLoginController(UserService userService) {
     this.userService = userService;
   }
 
@@ -86,11 +85,14 @@ public class LoginController {
   }
 
   /*
-   * Process new user form data to save user.
+   * Process new user form data to register user.
    * The Model Attribute is that setup as the th:object in the new user html form.
    */
   @PostMapping("/authenticateNewUser")
-  public String saveUser(@Valid @ModelAttribute("newUser") NewUserDTO newUser, BindingResult bindingResult, Model model) {
+  public String saveUser(@Valid
+                         @ModelAttribute("newUser") NewUserDTO newUser,
+                         BindingResult bindingResult,
+                         Model model) {
 
     // Form validation, check formatting of the supplied username and password fields.
     if (bindingResult.hasErrors()) {

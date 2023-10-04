@@ -11,6 +11,10 @@ import jakarta.validation.constraints.NotNull;
 
 public class StudentEnrollmentDTO {
 
+  /*
+   * Declare class fields
+   */
+
   @NotNull(message = "is required")
   @Range(min = 1, max = 10, message = "is required")
   // Declaring as integer rather than int ensures a default value of '0' is not displayed in form field.
@@ -20,6 +24,10 @@ public class StudentEnrollmentDTO {
   @Range(min = 1, max = 10, message = "is required")
   private Integer studentId;
 
+  /*
+   * Define class constructors
+   */
+
   public StudentEnrollmentDTO() {
   }
 
@@ -27,6 +35,10 @@ public class StudentEnrollmentDTO {
     this.courseId = courseId;
     this.studentId = studentId;
   }
+
+  /*
+   * Define class getter and setter methods
+   */
 
   public Integer getCourseId() {
     return courseId;

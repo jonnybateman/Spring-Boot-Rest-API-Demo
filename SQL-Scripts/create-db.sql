@@ -177,9 +177,10 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `roles` (
+  `id` int NOT NULL,
   `username` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL,
-  PRIMARY KEY (`username`,`role`),
+  PRIMARY KEY (`id`),
   CONSTRAINT `FK_USER_ROLE` FOREIGN KEY (`username`) 
   REFERENCES `users` (`username`) 
   ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -187,16 +188,16 @@ CREATE TABLE `roles` (
 
 INSERT INTO `users`
 VALUES
-('john','$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
-('mary','$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
-('susan','$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1);
+('john','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
+('mary','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
+('susan','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1);
 
 INSERT INTO `roles`
 VALUES
-('john','ROLE_STUDENT'),
-('mary','ROLE_STUDENT'),
-('mary','ROLE_INSTRUCTOR'),
-('susan','ROLE_ADMIN');
+(1,'john','ROLE_STUDENT'),
+(2,'mary','ROLE_STUDENT'),
+(3,'mary','ROLE_INSTRUCTOR'),
+(4,'susan','ROLE_ADMIN');
 
 SET FOREIGN_KEY_CHECKS = 1;
 

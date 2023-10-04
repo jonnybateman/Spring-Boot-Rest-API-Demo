@@ -11,6 +11,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class NewUserDTO {
+
+  /*
+   * Declare class fields
+   */
   
   @NotNull(message = "is required")
   @Size(min = 1, message = "is required")
@@ -31,8 +35,16 @@ public class NewUserDTO {
 
   private String roleInstructor;
 
+  /*
+   * Declare class constructors
+   */
+
   public NewUserDTO() {
   }
+
+  /*
+   * Declare class getter and setter methods
+   */
 
   public String getUsername() {
     return username;
