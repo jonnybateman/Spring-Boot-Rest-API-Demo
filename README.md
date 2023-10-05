@@ -61,3 +61,30 @@ All requests are made by adding a specified end point to the following URL: http
 |POST|/create-instructor|Will create a new instructor using parameters found in the supplied request body. Requires the aformentioned Authorization header.|
 
 ### Request Parameters
+
+Parameters for endpoints are sent via the request body in JSON format, for example the body for the `/login` endpoint is as follows:
+
+```
+    {
+      "username" : "your-username",
+      "password" : "your-password"
+    }
+```
+
+|Endpoint|Parameter|Type|Description|Required|
+|--------|---------|----|-----------|--------|
+|/login|username|String|The username for the user logging in to the service.|Yes|
+|/login|password|String|The password for the user logging in to the service.|Yes|
+|/enrol-student|courseId|Integer|Course id of the course that the student is to be enroled onto.|Yes|
+|/enrol-student|studentId|Integer|Id of student to be enroled.|Yes|
+|/create-course|title|String|Title of the course.|Yes|
+|/create-course|instructorId|Integer|Id of the instructor that teaches the course. Id must be for an instructor that already exists.|Yes|
+|/create-student|firstName|String|The first name of the student.|Yes|
+|/create-student|lastName|String|The last name of the student.|Yes|
+|/create-student|email|String|Email address of the student.|Yes|
+|/create-instructor|firstName|String|The first name of the instructor.|Yes|
+|/create-instructor|lastName|String|The last Name of the instructor.|Yes|
+|/create-instructor|email|String|Email address of instructor.|Yes|
+|/create-instructor|age|Integer|Age of instructor.|Yes|
+|/create-instructor|sex|String|The sex of the instructor.|Yes
+|/create-instructor|address|String|The address for the instructor.|Yes|
