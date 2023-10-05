@@ -16,12 +16,14 @@ REST stands for Representational State Transfer. This means that when a client r
 
 ## RestApi Demo
 
-The demo in this repository is for a RESTful Web Service. It has a MySQL backend database which the web service can view and modify. In this demo the database tracks students and instructors in relation to courses. The entity relationship diagram for the database can be viewed below.
+The demo in this repository is for a RESTful API Web Service. It has a MySQL backend database which the web service can view and modify. In this demo the database tracks students and instructors in relation to courses. The entity relationship diagram for the database can be viewed below.
+
+In addition to the Rest Web Service API a Web Application has also been developed to view and modify the resources hosted by the server. It can be accessed through the link [RestApi_Application](https://cqueltech.com/restapi-0.0.1-SNAPSHOT).
 
 ### Instructor-Student-Tracking schema
 ![Alt text](./RestApi-ERD-Dark-SVG.svg)
 
-To use the web service one must login in first. A user has associated role(s), each role has it's own level of access to the database. The role depicts what can be viewed, modified or created within the datbase. The roles, and their associated database access, are listed below.
+To use the web service/application one must login in first. A user has associated role(s), each role has it's own level of access to the database. The role depicts what can be viewed, modified or created within the datbase. The roles, and their associated database access, are listed below.
 
 - Student role:
   - view courses and associated instructor conducting the course
@@ -38,6 +40,15 @@ To use the web service one must login in first. A user has associated role(s), e
  
 To create a user just press the `Register User` button in the sign-in page. It just requires a username and password, no personal details are required or stored. By default the user will be created with the `Student` role. The `Instructor` role can also be assigned to the user by checking the applicable check box. The `Admin` role is for database administrators only.
 
-Use this link [RestApi Demo](https://cqueltech.com/restapi-0.0.1-SNAPSHOT) to access the web service.
+The web service/application is deployed on an Apache Tomcat server with an Apache server acting as a reverse proxy to it.
 
-The web service is deployed on an Apache Tomcat server with an Apache server acting as a reverse proxy to it.
+## Web Service HTTP Request Configuration
+
+###Request Types
+
+All requests are made by adding a specified end point to the following URL: https://cqueltech.com/restapi-0.0.1-SNAPSHOT/api
+
+|Method|Endpoint|Description|
+|------|--------|-----------|
+|POST|/login|Login to the service passing a JSON request body as set out in the parameters below. Returns an Oauth2 JWT Token to be used for further requests|
+|GET|/courses|This request returns a list of courses with associated instructor ids. Requires an Authorization header of format "Bearer jwt-token"|
