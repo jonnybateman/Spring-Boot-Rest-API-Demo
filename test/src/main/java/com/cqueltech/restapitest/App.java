@@ -16,7 +16,7 @@ public class App {
 
     // Create instance of JwtLoginRequestDTO, this will be used for the body of
     // our login HTTP request.
-    JwtLoginRequest jwtLoginRequest = new JwtLoginRequest("john", "fun123");
+    JwtLoginRequest jwtLoginRequest = new JwtLoginRequest("mike", "fun123");
 
     // Need to convert the JwtLoginRequestDTO instance to a JSON string.
     Gson gson = new Gson();
@@ -24,7 +24,7 @@ public class App {
 
     // Formulate the HTTP request for user authentication.
     HttpRequest authenticationRequest = HttpRequest.newBuilder()
-      .uri(new URI("http://127.0.0.1:8080/api/login"))
+      .uri(new URI("https://cqueltech.com/restapi-0.0.1-SNAPSHOT/api/login"))
       .header("Content-Type", "application/json")
       .POST(BodyPublishers.ofString(loginBody))
       .build();
@@ -55,7 +55,7 @@ public class App {
 
     // Formulate a new HTTP get request to return a list of courses.
     HttpRequest coursesRequest = HttpRequest.newBuilder()
-        .uri(new URI("http://127.0.0.1:8080/api/courses"))
+        .uri(new URI("https://cqueltech.com/restapi-0.0.1-SNAPSHOT/api/courses"))
         .header("Content-Type", "application/json")
         .header("Authorization", "Bearer " + jwt)
         .GET()

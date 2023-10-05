@@ -11,7 +11,7 @@
 	<groupId>com.cqueltech</groupId>
 	<artifactId>restapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging> <!-- value of jar for .jar file, or, value of war for .war package -->
+  <packaging>jar</packaging> <!-- value of jar for .jar file, or, value of war for .war package -->
 	<name>restapi</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -74,11 +74,13 @@
     <!-- a war file for deployment to a Tomcat server. A Tomcat instance will no -->
     <!-- longer be included with the standard jar file. Remove dependency to produce -->
     <!-- a .jar file which will have an embedded Tomcat instance. -->
+    <!--
     <dependency>  
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-tomcat</artifactId>
       <scope>provided</scope>
     </dependency>
+    -->
 
     <!-- Add some basic validation rules for a user registration form to make sure -->
     <!-- the username and password fields are not empty. -->
