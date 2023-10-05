@@ -44,11 +44,14 @@ The web service/application is deployed on an Apache Tomcat server with an Apach
 
 ## Web Service HTTP Request Configuration
 
-###Request Types
+### Request Types
 
 All requests are made by adding a specified end point to the following URL: https://cqueltech.com/restapi-0.0.1-SNAPSHOT/api
 
 |Method|Endpoint|Description|
 |------|--------|-----------|
-|POST|/login|Login to the service passing a JSON request body as set out in the parameters below. Returns an Oauth2 JWT Token to be used for further requests|
-|GET|/courses|This request returns a list of courses with associated instructor ids. Requires an Authorization header of format "Bearer jwt-token"|
+|POST|/login|Login to the service passing a JSON request body as set out in the parameters below. Returns an Oauth2 JWT Token to be used in authorizing further requests.|
+|GET|/courses|This request returns a list of courses with associated instructor ids. Request requires an Authorization header of format "Bearer your-jwt-token".|
+|GET|/course-reviews|Returns a list of submitted reviews for each course. Request requires an Authorization header of format "Bearer your-jwt-token".|
+|GET|/instructors|Request returns a list of instructors with associated instructor detail. Requires the aforementioned Authorization header.|
+|GET|/students|This request will return a list of courses with all students enrolled on these courses. Requires the aforementioned Authorization header.|
