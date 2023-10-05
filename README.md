@@ -55,3 +55,9 @@ All requests are made by adding a specified end point to the following URL: http
 |GET|/course-reviews|Returns a list of submitted reviews for each course. Request requires an Authorization header of format "Bearer your-jwt-token".|
 |GET|/instructors|Request returns a list of instructors with associated instructor detail. Requires the aforementioned Authorization header.|
 |GET|/students|This request will return a list of courses with all students enrolled on these courses. Requires the aforementioned Authorization header.|
+|POST|/enrol-student|This post request enrols a student onto a course. Requires the aforementioned Authorization header.|
+|POST|/create-course|Will create a new course using parameters found in the supplied request body. Requires the aforementioned Authorization header.|
+|POST|/create-student|Will create a new student using parameters found in the supplied request body. Requires the aforementioned Authorization header.|
+|POST|/create-instructor|Will create a new instructor using parameters found in the supplied request body. Requires the aformentioned Authorization header.|
+
+### Request Parameters
