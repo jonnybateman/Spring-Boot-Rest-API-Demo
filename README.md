@@ -88,3 +88,55 @@ Parameters for endpoints are sent via the request body in JSON format, for examp
 |/create-instructor|age|Integer|Age of instructor.|Yes|
 |/create-instructor|sex|String|The sex of the instructor.|Yes
 |/create-instructor|address|String|The address for the instructor.|Yes|
+
+### Request Response
+
+All responses to HTTP requests are returned in a specific JSON format as detailed in the tables below.
+
+|Endpoint|Response Attribute|Type|Descrition|
+|--------|------------------|----|----------|
+|/login|user|Object|An object containing all attributes associated with the user account.|
+|/login|user:username|String|Username of user account|
+|/login|user:password|String|Password of user account. All passwords stored with BCrypt encryption.|
+|/login|user:active|Integer|Defines whether user account is currenly active. 1 -> Active; 0 -> Non-active.|
+|/login|user:accountNonLocked|Boolean|Defines if account is loacked or not.|
+|/login|user:accountNonExpired|Boolean|Has the accoount expired or not.|
+|/login|user:credentialsNonExpired|Boolean|Indicates whether the user's credentials(password) has expired.|
+|/login|user:authorities|Array|A set of authorities or roles linked to the user|
+|/login|user:authorities:id|Integer|Id of authority/role for the user.|
+|/login|user:authorities:username|String|Username identifying the user that the authority/role belongs to.|
+|/login|user:authorities:role|String|Role that the user has been authorized to use.|
+|/login|user:authorities:authority|String|Authority that the user has been authorized to use.|
+|/login|user:enabled|Boolean|Indicates whether the user is enabled or disabled.|
+|/login|jwt|String|The JWT Token that has been generated for the user upon successful authorization. Token should be used in further HTTP requests to authorize those requests.|
+
+An example of a login response in JSON format is as follows
+
+```
+    {
+      "user": {
+          "username": "mike",
+          "password": "{bcrypt}$2a$10$S5G9Gmmdtjg06xCq58.1eOC2Go62amzp2EXVYbTfy871WF5cSID4O",
+          "active": 1,
+          "accountNonLocked": true,
+          "accountNonExpired": true,
+          "credentialsNonExpired": true,
+          "authorities": [
+              {
+                  "id": 6,
+                  "username": "mike",
+                  "role": "INSTRUCTOR",
+                  "authority": "INSTRUCTOR"
+              },
+              {
+                  "id": 5,
+                  "username": "mike",
+                  "role": "STUDENT",
+                  "authority": "STUDENT"
+              }
+          ],
+          "enabled": true
+      },
+      "jwt": "jwt-token"
+    }
+```
