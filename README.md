@@ -109,10 +109,10 @@ All responses to HTTP requests are returned in a specific JSON format as detaile
 |/login|user:authorities:authority|String|Authority that the user has been authorized to use.|
 |/login|user:enabled|Boolean|Indicates whether the user is enabled or disabled.|
 |/login|jwt|String|The JWT Token that has been generated for the user upon successful authorization. Token should be used in further HTTP requests to authorize those requests.|
-|All|status|Integer|HTTP status of request.|
-|All|message|String|Request message/information/error|
-|All|timestamp|String|Timestamp that the request was received.|
-|All|array|Array|An array of records retrieved from the web services' database.|
+|All except /login|status|Integer|HTTP status of request.|
+|All except /login|message|String|Request message/information/error|
+|All except /login|timestamp|String|Timestamp that the request was received.|
+|All except /login|array|Array|An array of records retrieved from the web services' database.|
 |/courses|array:courseId|Integer|Course Id.|
 |/courses|array:title|String|The title of the course.|
 |/courses|array:firstName|String|First name of instructor conducting course.|
@@ -154,14 +154,7 @@ An example of a login response in JSON format is as follows
     }
 ```
 
-All subsequent HTTP requests to the login request will have a standardized JSON response. This response has the following attributes:
-
-|Endpoint|Attributes|Type|Description|
-|--------|----------|----|-----------|
-
-
-
-What follows is an example of the standardized JSON response, in the is case for the `/courses` endpoint.
+What follows is an example of the standardized JSON response for all HTTP requests except `/login`, this example is for the `/courses` endpoint.
 
 ```
     {
@@ -194,4 +187,4 @@ What follows is an example of the standardized JSON response, in the is case for
 }
 ```
 
-Should an error occur or a bad request was sent the response will be in the same format detailing the error. The array attribute will of course be empty.
+Should an error occur or a bad request was sent the response will be in the same format detailing the error. The array attribute will of course be empty or null.
