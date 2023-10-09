@@ -140,3 +140,47 @@ An example of a login response in JSON format is as follows
       "jwt": "jwt-token"
     }
 ```
+
+All subsequent HTTP requests to the login request will have a will have a standardized JSON response. This response has the following attributes:
+
+|Attributes|Type|Description|
+|----------|----|-----------|
+|status|Integer|HTTP status of request.|
+|message|String|Request message/information/error|
+|timestamp|String|Timestamp that the request was received.|
+|array|Array|An array of records retrieved from the web services' database.|
+
+What follows is an example of the standardized JSON response, in the is case for the `/courses` endpoint.
+
+```
+    {
+    "status": 200,
+    "message": "SUCCESS",
+    "timestamp": "09-10-2023 17:59:17",
+    "array": [
+        {
+            "courseId": 1,
+            "title": "Maths",
+            "firstName": "John",
+            "lastName": "Smith",
+            "instructorId": 1
+        },
+        {
+            "courseId": 2,
+            "title": "Physics",
+            "firstName": "John",
+            "lastName": "Smith",
+            "instructorId": 1
+        },
+        {
+            "courseId": 3,
+            "title": "Biology",
+            "firstName": "Joe",
+            "lastName": "Bloggs",
+            "instructorId": 2
+        }
+    ]
+}
+```
+
+Should an error occur or a bad request was sent the response will be in the same format detailing the error. The array attribute will of course be empty.
