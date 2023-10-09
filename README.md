@@ -109,6 +109,19 @@ All responses to HTTP requests are returned in a specific JSON format as detaile
 |/login|user:authorities:authority|String|Authority that the user has been authorized to use.|
 |/login|user:enabled|Boolean|Indicates whether the user is enabled or disabled.|
 |/login|jwt|String|The JWT Token that has been generated for the user upon successful authorization. Token should be used in further HTTP requests to authorize those requests.|
+|All|status|Integer|HTTP status of request.|
+|All|message|String|Request message/information/error|
+|All|timestamp|String|Timestamp that the request was received.|
+|All|array|Array|An array of records retrieved from the web services' database.|
+|/courses|array:courseId|Integer|Course Id.|
+|/courses|array:title|String|The title of the course.|
+|/courses|array:firstName|String|First name of instructor conducting course.|
+|/courses|array:lastName|String|Last name of instructor conducting the course.|
+|/courses|array:instructorId|Integer|Id of instructor conducting the course.|
+|/course-reviews|array:courseId|Integer|Course Id.|
+|/course-reviews|array:title|String|The title of the course.|
+|/course-reviews|array:comment|String|Student comment on the course.|
+|/students|array:courseId|Integer|Course Id that the student is enroled on.|
 
 An example of a login response in JSON format is as follows
 
@@ -141,14 +154,12 @@ An example of a login response in JSON format is as follows
     }
 ```
 
-All subsequent HTTP requests to the login request will have a will have a standardized JSON response. This response has the following attributes:
+All subsequent HTTP requests to the login request will have a standardized JSON response. This response has the following attributes:
 
-|Attributes|Type|Description|
-|----------|----|-----------|
-|status|Integer|HTTP status of request.|
-|message|String|Request message/information/error|
-|timestamp|String|Timestamp that the request was received.|
-|array|Array|An array of records retrieved from the web services' database.|
+|Endpoint|Attributes|Type|Description|
+|--------|----------|----|-----------|
+
+
 
 What follows is an example of the standardized JSON response, in the is case for the `/courses` endpoint.
 
