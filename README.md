@@ -109,10 +109,10 @@ All responses to HTTP requests are returned in a specific JSON format as detaile
 |/login|user:authorities:authority|String|Authority that the user has been authorized to use.|
 |/login|user:enabled|Boolean|Indicates whether the user is enabled or disabled.|
 |/login|jwt|String|The JWT Token that has been generated for the user upon successful authorization. Token should be used in further HTTP requests to authorize those requests.|
-|/login;/enrol-student;/create-student;/create-course;/create-instructor|status|Integer|HTTP status of request.|
-|/login;/enrol-student;/create-student;/create-course;/create-instructor|message|String|Request message/information/error|
-|/login;/enrol-student;/create-student;/create-course;/create-instructor|timestamp|String|Timestamp that the request was received.|
-|/login;/enrol-student;/create-student;/create-course;/create-instructor|array|Array|An array of records retrieved from the web services' database.|
+|/login; /enrol-student; /create-student; /create-course; /create-instructor|status|Integer|HTTP status of request.|
+|/login; /enrol-student; /create-student; /create-course; /create-instructor|message|String|Request message/information/error|
+|/login; /enrol-student; /create-student; /create-course; /create-instructor|timestamp|String|Timestamp that the request was received.|
+|/login; /enrol-student; /create-student; /create-course; /create-instructor|array|Array|An array of records retrieved from the web services' database.|
 |/courses|array:courseId|Integer|Course Id.|
 |/courses|array:title|String|The title of the course.|
 |/courses|array:firstName|String|First name of instructor conducting course.|
@@ -199,3 +199,58 @@ What follows is an example of the standardized JSON response for all HTTP reques
 ```
 
 Should an error occur or a bad request was sent the response will be in the same format detailing the error. The array attribute will of course be empty or null.
+
+## Using the Web Service
+
+The following pieces of code demonstrate the use of the web service in a client application.
+
+To use the web service we first need to retrieve an Oauth2 JWT token from the service by passing user credentials in a request to the `/login` endpoint. On successful authentication of the user a token will be returned in the response. A new user can be registed in the Web Application, use this [link](https://cqueltech.com/restapi-0.0.1-SNAPSHOT).
+
+```
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpRequest.BodyPublishers;
+    import java.net.http.HttpResponse;
+    import java.net.http.HttpResponse.BodyHandlers;
+    import com.cqueltech.restapitest.ResponseDTO.Course;
+    import com.google.gson.Gson;
+
+    public class App {
+      public static void main(String[] args) throws Exception {
+
+        // Login the user and receive JWT token for further HTTP requests
+
+        // Create instance of Login Request DTO, this will be used for the body of
+        // our login HTTP request.
+        LoginRequestDTO loginRequest = new LoginRequestDTO("username", "password");
+
+        // Need to convert the login request DTO instance to a JSON string. Use Google's
+        // GSON library.
+        Gson gson = new Gson();
+        String loginBody = gson.toJson(loginRequest);
+
+        // Formulate the HTTP login request for user authentication.
+        HttpRequest authenticationRequest = HttpRequest.newBuilder()
+          .uri(new URI("https://cqueltech.com/restapi-0.0.1-SNAPSHOT/api/login"))
+          .header("Content-Type", "application/json")
+          .POST(BodyPublishers.ofString(loginBody))
+          .build();
+
+        // Send the authentication request to the web service. We will recieve a string
+        // in JSON format as a response.
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpResponse<String> authenticationResponse =
+            httpClient.send(authenticationRequest, BodyHandlers.ofString());
+
+        // Use GSON to parse json data to an instance of our login response class. This allows the data to be
+        // easily accessible in the client application.
+        LoginResponseDTO loginResponse = gson.fromJson(authenticationResponse.body(), LoginResponseDTO.class);
+
+        // Get the JWT Token. Now we can use it for all other requests to the service.
+        String jwtToken = loginResponse.getJwt();
+
+        ...
+      }
+    }
+```
