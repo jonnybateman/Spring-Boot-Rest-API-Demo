@@ -109,10 +109,10 @@ All responses to HTTP requests are returned in a specific JSON format as detaile
 |/login|user:authorities:authority|String|Authority that the user has been authorized to use.|
 |/login|user:enabled|Boolean|Indicates whether the user is enabled or disabled.|
 |/login|jwt|String|The JWT Token that has been generated for the user upon successful authorization. Token should be used in further HTTP requests to authorize those requests.|
-|All except /login|status|Integer|HTTP status of request.|
-|All except /login|message|String|Request message/information/error|
-|All except /login|timestamp|String|Timestamp that the request was received.|
-|All except /login|array|Array|An array of records retrieved from the web services' database.|
+|/login;/enrol-student;/create-student;/create-course;/create-instructor|status|Integer|HTTP status of request.|
+|/login;/enrol-student;/create-student;/create-course;/create-instructor|message|String|Request message/information/error|
+|/login;/enrol-student;/create-student;/create-course;/create-instructor|timestamp|String|Timestamp that the request was received.|
+|/login;/enrol-student;/create-student;/create-course;/create-instructor|array|Array|An array of records retrieved from the web services' database.|
 |/courses|array:courseId|Integer|Course Id.|
 |/courses|array:title|String|The title of the course.|
 |/courses|array:firstName|String|First name of instructor conducting course.|
@@ -122,6 +122,17 @@ All responses to HTTP requests are returned in a specific JSON format as detaile
 |/course-reviews|array:title|String|The title of the course.|
 |/course-reviews|array:comment|String|Student comment on the course.|
 |/students|array:courseId|Integer|Course Id that the student is enroled on.|
+|/students|array:title|String|Title of the course that the student is enroled on.|
+|/students|array:firstName|String|First name of student enroled on course.|
+|/students|array:lastName|String|Last name of student enroled on course.|
+|/students|array:email|String|Email address of student enroled on course.|
+|/students|array:studentId|Integer|Id of student enroled on course.|
+|/instructors|array:instructorId|Integer|Id of instructor.|
+|/instructors|array:firstName|String|First name of instructor.|
+|/instructors|array:lastName|String|Last name of instructor.|
+|/instructors|array:age|Integer|Age of instructor.|
+|/instructors|array:sex|String|Sex of instructor(M/F).|
+|/instructors|array:address|String|Address of instructor.|
 
 An example of a login response in JSON format is as follows
 
