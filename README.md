@@ -254,3 +254,44 @@ To use the web service we first need to retrieve an Oauth2 JWT token from the se
       }
     }
 ```
+
+Now that we have retrieved the JWT token, requests to retrieve data from the service can be made. In the code snippet below we submit a request to retrieve information on available courses.
+
+```
+    // Additional import statements
+    import java.lang.reflect.Type;
+    import com.google.gson.reflect.TypeToken;
+
+    ...
+    // Now lets use the JWT token in the web service to return a list of courses.
+
+    // Get the JWT token.
+    String jwt = loginResponse.getJwt();
+
+    // Formulate a new HTTP get request to return a list of courses.
+    HttpRequest coursesRequest = HttpRequest.newBuilder()
+        .uri(new URI("https://cqueltech.com/restapi-0.0.1-SNAPSHOT/api/courses"))
+        .header("Content-Type", "application/json")
+        .header("Authorization", "Bearer " + jwt)
+        .GET()
+        .build();
+
+    // Send the request for a list of courses to the web service.
+    HttpResponse<String> coursesResponse =
+        httpClient.send(coursesRequest, BodyHandlers.ofString());
+
+    // The TypeToken instance is used by GSON to provide type information when converting a JSON
+    // string into an instance of our response DTO class. The TypeToken instance is needed in this
+    // case since the list of objects in our response class is generic.
+    Type responseType = new TypeToken<ResponseDTO<CourseDTO>>(){}.getType();
+
+    // Use GSON to parse json data to our response class. This allows the data to be
+    // easily accessible.
+    ResponseDTO response = gson.fromJson(coursesResponse.body(), ResponseDTO.class);
+
+    // Display the courses.
+    for (Course course : response.getArray()) {
+      System.out.println(course.getTitle() + ", " + course.getInstructorId());
+    }
+    ...
+```
