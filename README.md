@@ -18,12 +18,12 @@ REST stands for Representational State Transfer. This means that when a client r
 
 The demo in this repository is for a RESTful API Web Service. It has a MySQL backend database which the web service can view and modify. In this demo the database tracks students and instructors in relation to courses. The entity relationship diagram for the database can be viewed below.
 
-In addition to the Rest Web Service API a Web Application has also been developed to view and modify the resources hosted by the server. It can be accessed through the link [RestApi_Application](https://cqueltech.com/restapi-0.0.1-SNAPSHOT).
+In addition to the Rest Web Service API a Web Application has also been developed to view and modify the resources hosted by the server. It can be accessed through the link [RestApi-Application](https://cqueltech.com/restapi-0.0.1-SNAPSHOT).
 
 ### Instructor-Student-Tracking schema
 ![Alt text](./RestApi-ERD-Dark-SVG.svg)
 
-To use the web service/application one must login in first. A user has associated role(s), each role has it's own level of access to the database. The role depicts what can be viewed, modified or created within the datbase. The roles, and their associated database access, are listed below.
+To use the web service/application one must login in first. A user has associated role(s), each role has it's own level of access to the database. The role depicts what can be viewed, modified or created within the database. The roles, and their associated database access, are listed below.
 
 - Student role:
   - view courses and associated instructor conducting the course
@@ -38,7 +38,7 @@ To use the web service/application one must login in first. A user has associate
   - create a new student
   - create a new instructor
  
-To create a user just press the `Register User` button in the sign-in page. It just requires a username and password, no personal details are required or stored. By default the user will be created with the `Student` role. The `Instructor` role can also be assigned to the user by checking the applicable check box. The `Admin` role is for database administrators only.
+To create a user just press the `Register User` button in the web application sign-in page. It just requires a username and password, no personal details are required or stored. By default the user will be created with the `Student` role. The `Instructor` role can also be assigned to the user by checking the applicable check box. The `Admin` role is reserved for database administrators only.
 
 The web service/application is deployed on an Apache Tomcat server with an Apache server acting as a reverse proxy to it.
 
@@ -91,7 +91,7 @@ Parameters for endpoints are sent via the request body in JSON format, for examp
 
 ### Request Response
 
-All responses to HTTP requests are returned in a specific JSON format as detailed in the tables below.
+All responses to HTTP requests are returned in a specific JSON format as detailed in the table below.
 
 |Endpoint|Response Attribute|Type|Descrition|
 |--------|------------------|----|----------|
@@ -109,10 +109,10 @@ All responses to HTTP requests are returned in a specific JSON format as detaile
 |/login|user:authorities:authority|String|Authority that the user has been authorized to use.|
 |/login|user:enabled|Boolean|Indicates whether the user is enabled or disabled.|
 |/login|jwt|String|The JWT Token that has been generated for the user upon successful authorization. Token should be used in further HTTP requests to authorize those requests.|
-|/login; /enrol-student; /create-student; /create-course; /create-instructor|status|Integer|HTTP status of request.|
-|/login; /enrol-student; /create-student; /create-course; /create-instructor|message|String|Request message/information/error|
-|/login; /enrol-student; /create-student; /create-course; /create-instructor|timestamp|String|Timestamp that the request was received.|
-|/login; /enrol-student; /create-student; /create-course; /create-instructor|array|Array|An array of records retrieved from the web services' database.|
+|/courses; /course-reviews; /students; /instructors; /enrol-student; /create-student; /create-course; /create-instructor|status|Integer|HTTP status of request.|
+|/courses; /course-reviews; /students; /instructors; /enrol-student; /create-student; /create-course; /create-instructor|message|String|Request message/information/error|
+|/courses; /course-reviews; /students; /instructors; /enrol-student; /create-student; /create-course; /create-instructor|timestamp|String|Timestamp that the request was received.|
+|/courses; /course-reviews; /students; /instructors; /enrol-student; /create-student; /create-course; /create-instructor|array|Array|An array of records retrieved from the web services' database. In the event of a POST request endpoint the `array` attribute in the response will be null.|
 |/courses|array:courseId|Integer|Course Id.|
 |/courses|array:title|String|The title of the course.|
 |/courses|array:firstName|String|First name of instructor conducting course.|
@@ -198,13 +198,13 @@ What follows is an example of the standardized JSON response for all HTTP reques
 }
 ```
 
-Should an error occur or a bad request was sent the response will be in the same format detailing the error. The array attribute will of course be empty or null.
+Should an error occur or a bad request is sent the response will be in the same format detailing the error. The array attribute will of course be empty or null.
 
 ## Using the Web Service
 
 The following pieces of code demonstrate the use of the web service in a client application.
 
-To use the web service we first need to retrieve an Oauth2 JWT token from the service by passing user credentials in a request to the `/login` endpoint. On successful authentication of the user a token will be returned in the response. A new user can be registed in the Web Application, use this [link](https://cqueltech.com/restapi-0.0.1-SNAPSHOT).
+To use the web service we first need to retrieve an Oauth2 JWT token from the service by passing user credentials in a request to the `/login` endpoint. On successful authentication of the user a token will be returned in the response. A new user can be registed in the Web Application, use this [RestApi-Application](https://cqueltech.com/restapi-0.0.1-SNAPSHOT).
 
 ```
     import java.net.URI;
@@ -221,16 +221,15 @@ To use the web service we first need to retrieve an Oauth2 JWT token from the se
 
         // Login the user and receive JWT token for further HTTP requests
 
-        // Create instance of Login Request DTO, this will be used for the body of
+        // Create instance of JwtLoginRequestDTO, this will be used for the body of
         // our login HTTP request.
-        LoginRequestDTO loginRequest = new LoginRequestDTO("username", "password");
+        LoginRequestDTO jwtLoginRequestDTO = new LoginRequestDTO("susan", "fun123");
 
-        // Need to convert the login request DTO instance to a JSON string. Use Google's
-        // GSON library.
+        // Need to convert the JwtLoginRequestDTO instance to a JSON string.
         Gson gson = new Gson();
-        String loginBody = gson.toJson(loginRequest);
+        String loginBody = gson.toJson(jwtLoginRequestDTO);
 
-        // Formulate the HTTP login request for user authentication.
+        // Formulate the HTTP request for user authentication.
         HttpRequest authenticationRequest = HttpRequest.newBuilder()
           .uri(new URI("https://cqueltech.com/restapi-0.0.1-SNAPSHOT/api/login"))
           .header("Content-Type", "application/json")
@@ -243,12 +242,28 @@ To use the web service we first need to retrieve an Oauth2 JWT token from the se
         HttpResponse<String> authenticationResponse =
             httpClient.send(authenticationRequest, BodyHandlers.ofString());
 
-        // Use GSON to parse json data to an instance of our login response class. This allows the data to be
-        // easily accessible in the client application.
+        // If we don't have a status in the range of 200 - 299 then the request failed.
+        // Display details of failure.
+        if (authenticationResponse.statusCode() < 200 || authenticationResponse.statusCode() >= 300) {
+          ResponseDTO<?> authenticationResponseDTO =
+              gson.fromJson(authenticationResponse.body(), ResponseDTO.class);
+          System.out.println("HTTP Response Status: " + authenticationResponseDTO.getStatus());
+          System.out.println("Error: " + authenticationResponseDTO.getMessage());
+          return;
+        }
+
+        // Use GSON to parse JSON response body to our response class. This allows the data to be
+        // easily accessible.
         LoginResponseDTO loginResponse = gson.fromJson(authenticationResponse.body(), LoginResponseDTO.class);
 
-        // Get the JWT Token. Now we can use it for all other requests to the service.
-        String jwtToken = loginResponse.getJwt();
+        // Display the contents of the response class instance.
+        System.out.println(loginResponse.getUser().getUsername());
+        for (int i=0; i<loginResponse.getUser().getAuthorities().size(); i++) {
+          System.out.println(loginResponse.getUser().getAuthorities().get(i).getRole());
+        }
+    
+        // Get the JWT token.
+        String jwt = loginResponse.getJwt();
 
         ...
       }
@@ -265,9 +280,6 @@ Now that we have retrieved the JWT token, requests to retrieve data from the ser
     ...
     // Now lets use the JWT token in the web service to return a list of courses.
 
-    // Get the JWT token.
-    String jwt = loginResponse.getJwt();
-
     // Formulate a new HTTP get request to return a list of courses.
     HttpRequest coursesRequest = HttpRequest.newBuilder()
         .uri(new URI("https://cqueltech.com/restapi-0.0.1-SNAPSHOT/api/courses"))
@@ -279,19 +291,287 @@ Now that we have retrieved the JWT token, requests to retrieve data from the ser
     // Send the request for a list of courses to the web service.
     HttpResponse<String> coursesResponse =
         httpClient.send(coursesRequest, BodyHandlers.ofString());
+    
+    // If we don't have a HTTP response status in the range of 200 - 299 then the request failed.
+    // Display details of failure.
+    if (coursesResponse.statusCode() < 200 || coursesResponse.statusCode() >= 300) {
+      ResponseDTO<?> responseDTO = gson.fromJson(coursesResponse.body(), ResponseDTO.class);
+      System.out.println("HTTP Response Status: " + responseDTO.getStatus());
+      System.out.println("Error: " + responseDTO.getMessage());
+      return;
+    }
 
     // The TypeToken instance is used by GSON to provide type information when converting a JSON
     // string into an instance of our response DTO class. The TypeToken instance is needed in this
-    // case since the list of objects in our response class is generic.
+    // case since the list of objects (in `array` attribute) in our ResponseDTO class is generic.
     Type responseType = new TypeToken<ResponseDTO<CourseDTO>>(){}.getType();
 
-    // Use GSON to parse json data to our response class. This allows the data to be
+    // Use Google's GSON library to parse JSON data to our response class. This allows the data to be
     // easily accessible.
-    ResponseDTO response = gson.fromJson(coursesResponse.body(), ResponseDTO.class);
+    ResponseDTO<CourseDTO> coursesResponseDTO = gson.fromJson(coursesResponse.body(), responseType);
 
     // Display the courses.
-    for (Course course : response.getArray()) {
+    for (CourseDTO course : coursesResponseDTO.getArray()) {
       System.out.println(course.getTitle() + ", " + course.getInstructorId());
     }
     ...
+```
+
+Here we have an example of a HTTP request to create a new course and store it in the server's database. Again we will be using the JWT token to authorise the request. The HTTP response will indicate whether the request succeeded or failed.
+
+```
+    // Create request body class instance, contains information to create the new course.
+    CreateCourseRequestDTO createCourseRequestDTO = new CreateCourseRequestDTO("Economics", 2);
+    // Using GSON convert createCourseDTO instance to a JSON string.
+    String createCourseBody = gson.toJson(createCourseRequestDTO);
+
+    // Formulate a HTTP request to create a course
+    HttpRequest createCourseRequest = HttpRequest.newBuilder()
+        .uri(new URI("https://cqueltech.com/restapi-0.0.1-SNAPSHOT/api/create-course"))
+        .header("Content-Type", "application/json")
+        .header("Authorization", "Bearer " + jwt)
+        .POST(BodyPublishers.ofString(createCourseBody))
+        .build();
+
+    // Send the request for a list of courses to the web service.
+    HttpResponse<String> createCourseResponse =
+        httpClient.send(createCourseRequest, BodyHandlers.ofString());
+
+    // Use Google's GSON library to parse response body JSON data to our response class.
+    // This allows the data to be easily accessible.
+    ResponseDTO<?> createCourseResponseDTO = gson.fromJson(createCourseResponse.body(), ResponseDTO.class);
+
+    // Check if the result of the create course request.
+    System.out.println("HTTP Response Status: " + createCourseResponseDTO.getStatus());
+    System.out.println("Message: " + createCourseResponseDTO.getMessage());
+```
+
+The snippets of code seen here utilize DTO classes in the process of sending HTTP requests or receiving HTTP responses to/from a web service (API). The DTO classes used in these examples can be seen below.
+
+### LoginRequestDTO.java
+```
+    public class LoginRequestDTO {
+  
+       private String username;
+       private String password;
+ 
+       public LoginRequestDTO() {
+         super();
+       }
+ 
+       public LoginRequestDTO(String username, String password) {
+         this.username = username;
+         this.password = password;
+       }
+ 
+       public String getUsername() {
+         return username;
+       }
+ 
+       public void setUsername(String username) {
+         this.username = username;
+       }
+ 
+       public String getPassword() {
+         return password;
+       }
+ 
+       public void setPassword(String password) {
+         this.password = password;
+       }
+    }
+```
+
+### LoginResponseDTO.java
+```
+    import java.util.ArrayList;
+    import java.util.List;
+    
+    public class LoginResponseDTO {
+      
+      private User user;
+      private String jwt;
+    
+      public User getUser() {
+        return user;
+      }
+    
+      public void setUser(User user) {
+        this.user = user;
+      }
+      
+      public String getJwt() {
+        return jwt;
+      }
+    
+      public void setJwt(String jwt) {
+        this.jwt = jwt;
+      }
+    
+      public class User {
+    
+        private String username;
+        private List<Authorities> authorities;
+    
+        public User() {
+          this.authorities = new ArrayList<Authorities>();
+        }
+    
+        public String getUsername() {
+          return username;
+        }
+    
+        public void setUsername(String username) {
+          this.username = username;
+        }
+    
+        public List<Authorities> getAuthorities() {
+          return authorities;
+        }
+    
+        public void setAuthorities(List<Authorities> authorities) {
+          this.authorities = authorities;
+        }
+    
+        public class Authorities {
+    
+          private String role;
+    
+          public String getRole() {
+            return role;
+          }
+    
+          public void setRole(String role) {
+            this.role = role;
+          }
+        }
+      }
+    }
+```
+
+### CourseDTO.java
+```
+    public class CourseDTO {
+
+      private int courseId;
+      private String title;
+      private String firstName;
+      private String lastName;
+      private int instructorId;
+    
+      public int getCourseId() {
+        return courseId;
+      }
+    
+      public void setCourseId(int courseId) {
+        this.courseId = courseId;
+      }
+    
+      public String getTitle() {
+        return title;
+      }
+    
+      public void setTitle(String title) {
+        this.title = title;
+      }
+    
+      public String getFirstName() {
+        return firstName;
+      }
+    
+      public void setFirstName(String firstName) {
+        this.firstName = firstName;
+      }
+    
+      public String getLastName() {
+        return lastName;
+      }
+    
+      public void setLastName(String lastName) {
+        this.lastName = lastName;
+      }
+    
+      public int getInstructorId() {
+        return instructorId;
+      }
+    
+      public void setInstructorId(int instructorId) {
+        this.instructorId = instructorId;
+      }
+    }
+```
+
+### CreateCourseRequestDTO.java
+```
+    public class CreateCourseRequestDTO {
+  
+      private String title;
+      private int instructorId;
+    
+      public CreateCourseRequestDTO(String title, int instructorId) {
+        this.title = title;
+        this.instructorId = instructorId;
+      }
+    
+      public String getTitle() {
+        return title;
+      }
+    
+      public void setTitle(String title) {
+        this.title = title;
+      }
+    
+      public int getInstructorId() {
+        return instructorId;
+      }
+    
+      public void setInstructorId(int instructorId) {
+        this.instructorId = instructorId;
+      }
+    }
+```
+
+### ResponseDTO.java
+```
+    import java.util.List;
+
+    public class ResponseDTO<T> {
+      
+      private int status;
+      private String message;
+      private String timestamp;
+      private List<T> array;
+    
+      public int getStatus() {
+        return status;
+      }
+    
+      public void setStatus(int status) {
+        this.status = status;
+      }
+    
+      public String getMessage() {
+        return message;
+      }
+    
+      public void setMessage(String message) {
+        this.message = message;
+      }
+    
+      public String getTimestamp() {
+        return timestamp;
+      }
+    
+      public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+      }
+    
+      public List<T> getArray() {
+        return array;
+      }
+    
+      public void setArray(List<T> array) {
+        this.array = array;
+      }
+    }
 ```
