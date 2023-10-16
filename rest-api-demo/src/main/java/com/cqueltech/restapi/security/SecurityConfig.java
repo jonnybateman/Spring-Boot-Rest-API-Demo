@@ -7,6 +7,8 @@ package com.cqueltech.restapi.security;
  */
 
 import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -31,6 +33,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import com.cqueltech.restapi.exceptionhandling.WebServiceGlobalExceptionHandler;
 import com.cqueltech.restapi.service.JwtUserService;
 import com.cqueltech.restapi.utils.RsaKeyProperties;
 import com.nimbusds.jose.jwk.JWK;
@@ -44,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableWebSecurity
 @Slf4j
-public class SecurityConfig {
+public class SecurityConfig<T> {
 
   /*
    * JWT configuration with beans to encode and decode JWT tokens.
@@ -57,6 +60,11 @@ public class SecurityConfig {
     // RSA Key value pair.
     this.keys = keys;
   }
+
+  // Inject the web service global exception handler to handle role based resource access
+  // failures. It implements AccessDeniedHandler to handle these situations.
+  @Autowired
+  WebServiceGlobalExceptionHandler<T> webServiceGlobalExceptionHandler;
 
   @Bean
   public JwtDecoder jwtDecoder() {
@@ -160,6 +168,7 @@ public class SecurityConfig {
         .oauth2ResourceServer(oauth2 -> {
           oauth2.jwt(Customizer.withDefaults());
           oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter()));
+          oauth2.accessDeniedHandler(webServiceGlobalExceptionHandler);
         }) 
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

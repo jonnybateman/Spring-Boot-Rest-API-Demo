@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,7 +71,8 @@ public class ServiceController<T> {
    * service APIs.
    */
   @PostMapping("/login")
-  public JwtLoginResponseDTO loginUser(@RequestBody JwtLoginRequestDTO body) {
+  public ResponseEntity<JwtLoginResponseDTO> loginUser(@RequestBody JwtLoginRequestDTO body) {
+
     return authenticationService.loginUser(body.getUsername(), body.getPassword());
   }
 
@@ -79,18 +81,20 @@ public class ServiceController<T> {
    */
   @SuppressWarnings("unchecked")
   @GetMapping("/courses")
-  public ServiceResponseDTO<T> getCourses() {
+  public ResponseEntity<ServiceResponseDTO<T>> getCourses() {
+
+    log.info("Calling courses endpoint");
 
     // Get a list of courses and associated instructors.
     List<CoursesDTO> courses = userService.findAllCourses();
 
-    // Generate the response object and set attribute values.
+    // Generate the response body object and set attribute values.
     ServiceResponseDTO<T> serviceResponseDTO = new ServiceResponseDTO<>(HttpStatus.OK.value(),
                                                             "SUCCESS",
                                                             dateTimeFormat.format(ZonedDateTime.now()),
                                                             (T)courses);
 
-    return serviceResponseDTO;
+    return new ResponseEntity<ServiceResponseDTO<T>>(serviceResponseDTO, null, HttpStatus.OK);
   }
 
   /*
@@ -98,7 +102,7 @@ public class ServiceController<T> {
    */
   @SuppressWarnings("unchecked")
   @GetMapping("/course-reviews")
-  public ServiceResponseDTO<T> getCourseReviews() {
+  public ResponseEntity<ServiceResponseDTO<T>> getCourseReviews() {
     
     // Get a list or reviews for every course.
     List<ReviewsDTO> reviews = userService.findAllReviews();
@@ -110,7 +114,7 @@ public class ServiceController<T> {
                                                             (T)reviews);
 
     // Return the response object to the client.
-    return serviceResponseDTO;
+    return new ResponseEntity<ServiceResponseDTO<T>>(serviceResponseDTO, null, HttpStatus.OK);
   }
 
   /*
@@ -195,6 +199,7 @@ public class ServiceController<T> {
       serviceResponseDTO.setStatus(HttpStatus.NOT_FOUND.value());
       serviceResponseDTO.setMessage("Student Id does not exist");
       return serviceResponseDTO;
+      
     }
 
     // Enroll the student.
@@ -216,11 +221,11 @@ public class ServiceController<T> {
    *    }
    */
   @PostMapping("/create-course")
-  public ServiceResponseDTO<T> createCourse(@Valid
+  public ResponseEntity<ServiceResponseDTO<T>> createCourse(@Valid
                                             @RequestBody CourseDTO body,
                                             BindingResult bindingResult) {
 
-    // Initialise the response to the client.
+    // Initialise the response body object to the client.
     ServiceResponseDTO<T> serviceResponseDTO = new ServiceResponseDTO<>();
     serviceResponseDTO.setTimestamp(dateTimeFormat.format(ZonedDateTime.now()));
 
@@ -228,7 +233,7 @@ public class ServiceController<T> {
     if (bindingResult.hasErrors()) {
       serviceResponseDTO.setStatus(HttpStatus.BAD_REQUEST.value());
       serviceResponseDTO.setMessage("Invalid request body.");
-      return serviceResponseDTO;
+      return new ResponseEntity<ServiceResponseDTO<T>>(serviceResponseDTO, null, HttpStatus.BAD_REQUEST);
     }
 
     // Ensure the instructor id provided exists.
@@ -236,7 +241,7 @@ public class ServiceController<T> {
     if (instructor == null) {
       serviceResponseDTO.setStatus(HttpStatus.NOT_FOUND.value());
       serviceResponseDTO.setMessage("Instructor Id does not exist");
-      return serviceResponseDTO;
+      return new ResponseEntity<ServiceResponseDTO<T>>(serviceResponseDTO, null, HttpStatus.NOT_FOUND);
     }
 
     // Create the course entity to be saved from the request body.
@@ -247,7 +252,7 @@ public class ServiceController<T> {
     // Return a successful response to the client.
     serviceResponseDTO.setStatus(HttpStatus.OK.value());
     serviceResponseDTO.setMessage("SUCCESS");
-    return serviceResponseDTO;
+    return new ResponseEntity<ServiceResponseDTO<T>>(serviceResponseDTO, null, HttpStatus.OK);
   }
 
   /*

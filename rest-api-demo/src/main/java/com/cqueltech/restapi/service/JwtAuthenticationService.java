@@ -8,6 +8,9 @@ package com.cqueltech.restapi.service;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,7 +36,7 @@ public class JwtAuthenticationService {
    * Authentication Manager then generates the JWT token. Returns a response to the
    * client using the JwtLoginResponseDTO class.
    */
-  public JwtLoginResponseDTO loginUser(String username, String password) {
+  public ResponseEntity<JwtLoginResponseDTO> loginUser(String username, String password) {
 
     Authentication auth = authManager.authenticate(
         new UsernamePasswordAuthenticationToken(username, password));
@@ -41,7 +44,9 @@ public class JwtAuthenticationService {
     String token = tokenService.generateJwtToken(auth);
 
     // Supplied user details authenticated, return login response and JWT token to client.
-    return new JwtLoginResponseDTO(jwtUserRepository.findByUsername(username), token);
+    //return new JwtLoginResponseDTO(jwtUserRepository.findByUsername(username), token);
+    return new ResponseEntity<JwtLoginResponseDTO>(
+      new JwtLoginResponseDTO(jwtUserRepository.findByUsername(username),  token), null, HttpStatus.OK);
   }
   
 }

@@ -1,15 +1,9 @@
 package com.cqueltech.restapitest;
 
 import java.util.ArrayList;
-
-/*
- * A class used to store data from a JSON string when the string is parsed
- * by Google's GSON library. 
- */
-
 import java.util.List;
 
-public class JwtLoginResponse {
+public class LoginResponseDTO {
   
   private User user;
   private String jwt;

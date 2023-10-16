@@ -26,5 +26,4 @@ public class CreateCourseRequestDTO {
     this.instructorId = instructorId;
   }
 
-  
 }

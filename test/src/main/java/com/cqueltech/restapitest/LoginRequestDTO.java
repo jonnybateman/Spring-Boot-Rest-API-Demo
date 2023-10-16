@@ -1,8 +1,6 @@
 package com.cqueltech.restapitest;
 
-/* A class used to store HTTP request body information. */
-
-public class JwtLoginRequest {
+public class LoginRequestDTO {
   
   /*
    * Declare class fields
@@ -15,11 +13,11 @@ public class JwtLoginRequest {
     * Declare constructors
     */
  
-   public JwtLoginRequest() {
+   public LoginRequestDTO() {
      super();
    }
  
-   public JwtLoginRequest(String username, String password) {
+   public LoginRequestDTO(String username, String password) {
      this.username = username;
      this.password = password;
    }

@@ -194,10 +194,10 @@ VALUES
 
 INSERT INTO `roles`
 VALUES
-(1,'john','ROLE_STUDENT'),
-(2,'mary','ROLE_STUDENT'),
-(3,'mary','ROLE_INSTRUCTOR'),
-(4,'susan','ROLE_ADMIN');
+(1,'john','STUDENT'),
+(2,'mary','STUDENT'),
+(3,'mary','INSTRUCTOR'),
+(4,'susan','ADMIN');
 
 SET FOREIGN_KEY_CHECKS = 1;
 
